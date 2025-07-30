@@ -1,4 +1,4 @@
-package fpoly.sonhaph40315_20_6.duan_prostore.modelbottomnavigation;
+package fpoly.sonhaph40315_20_6.duan_prostore.model;
 
 import java.io.Serializable;
 

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.adapter.ShoppingCart_Adapter;
-import fpoly.sonhaph40315_20_6.duan_prostore.modelbottomnavigation.ShoppingCart_Model;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.ShoppingCart_Model;
 
 
 public class ShoppingCartFragment extends Fragment {
