@@ -12,6 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DuAn_ProStore">
         <activity
+            android:name=".useractivity.Contact_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".useractivity.InformationUser_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".useractivity.BankCard_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".useractivity.Order_Activity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
