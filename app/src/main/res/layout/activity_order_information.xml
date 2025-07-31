@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:background="@drawable/bg_text_thongtin"
+        android:background="@drawable/bg_informationuser_edittext"
         android:gravity="center"
         android:text="Thông tin giao dự kiến 3TH11-5TH11"
         android:textSize="20sp"
@@ -88,7 +88,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/diaiem" />
+            android:src="@drawable/map_icon" />
 
         <LinearLayout
             android:layout_width="match_parent"
