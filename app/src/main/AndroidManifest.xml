@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DuAn_ProStore">
         <activity
+            android:name=".useractivity.ProductReview_Activity"
+            android:exported="false" />
+        <activity
             android:name=".useractivity.OrderInformation_Activity"
             android:exported="false" />
         <activity
