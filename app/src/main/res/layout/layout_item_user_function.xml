@@ -27,7 +27,7 @@
         android:layout_weight="4"
         android:paddingStart="16dp"
         android:text="Tên mục"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:gravity="center|left"
         android:textColor="#FFFFFF"
         android:textSize="23sp" />
@@ -35,7 +35,7 @@
     <ImageView
         android:id="@+id/layout_item_img_next_user_icon"
         android:layout_weight="1"
-        android:layout_width="24dp"
+        android:layout_width="0dp"
         android:layout_height="24dp"
         android:src="@drawable/user_next_icon" />
 </LinearLayout>

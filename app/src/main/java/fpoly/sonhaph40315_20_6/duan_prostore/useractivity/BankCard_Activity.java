@@ -50,6 +50,7 @@ public class BankCard_Activity extends AppCompatActivity {
         bankCardAcountAdapter = new BankCardAcount_Adapter(this, listCreditCardModel);
         rcv_taikhoannganhang.setLayoutManager(new LinearLayoutManager(this));
         rcv_taikhoannganhang.setAdapter(bankCardAcountAdapter);
+        btn_back.setOnClickListener(v -> finish());
     }
 
     private void initUl() {

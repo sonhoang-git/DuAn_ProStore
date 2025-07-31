@@ -1,6 +1,8 @@
 package fpoly.sonhaph40315_20_6.duan_prostore.useractivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +20,7 @@ import fpoly.sonhaph40315_20_6.duan_prostore.adapter.ViewPagerAdapter;
 
 public class OderStatus_Activity extends AppCompatActivity {
     private String[] title_donmua = {"Chờ xác nhận", "Đã giao", "Đã hủy","Đang giao"};
-    private Toolbar toolbar_donmua;
+  private ImageButton btn_back;
     private TabLayout tablayout_donmua;
     private ViewPager2 viewpager;
     private ViewPagerAdapter viewpageradapter;
@@ -27,11 +29,18 @@ public class OderStatus_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_oder_status);
-        toolbar_donmua = findViewById(R.id.toolbar_donmua);
-
-        toolbar_donmua.setTitle("Đơn hàng");
-        setSupportActionBar(toolbar_donmua);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        btn_back = findViewById(R.id.btn_back);
+//        toolbar_donmua = findViewById(R.id.toolbar_donmua);
+//
+//        toolbar_donmua.setTitle("Đơn hàng");
+//        setSupportActionBar(toolbar_donmua);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         tablayout_donmua = findViewById(R.id.tablayout_donmua);
         viewpager = findViewById(R.id.viewpager);
         viewpageradapter = new ViewPagerAdapter(this);

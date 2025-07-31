@@ -1,6 +1,7 @@
 package fpoly.sonhaph40315_20_6.duan_prostore.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.StatusOrder_Model;
+import fpoly.sonhaph40315_20_6.duan_prostore.useractivity.ProductReview_Activity;
 
 public class Canceled_Adapter extends RecyclerView.Adapter<Canceled_Adapter.ViewHolder>{
     private final Context context;
@@ -35,7 +39,9 @@ public class Canceled_Adapter extends RecyclerView.Adapter<Canceled_Adapter.View
     @Override
     public void onBindViewHolder(@NonNull Canceled_Adapter.ViewHolder holder, int position) {
         StatusOrder_Model item = trangThaiModelArrayList.get(position);
-        holder.img_layout_item_dahuy_avata.setImageResource(item.getAvata());
+        Glide.with(context)
+                .load(item.getAvata())  // nếu là resource ID: int, Glide vẫn hỗ trợ
+                .into(holder.img_layout_item_dahuy_avata);
         holder.txt_layout_item_dahuy_aotreem.setText(item.getName());
         holder.txt_layout_item_dahuy_giatien.setText(String.valueOf(item.getGia()+ "K"));
         holder.txt_layout_item_dahuy_trangthai.setText(item.getTrangthai());
@@ -43,7 +49,8 @@ public class Canceled_Adapter extends RecyclerView.Adapter<Canceled_Adapter.View
 
         });
         holder.txt_layout_item_dahuy_danhgia.setOnClickListener(item1 -> {
-
+            Intent intent = new Intent(context, ProductReview_Activity.class);
+            context.startActivity(intent);
         });
     }
 

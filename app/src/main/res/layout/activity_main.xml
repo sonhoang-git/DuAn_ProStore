@@ -20,6 +20,9 @@
         android:background="#050505"
         android:layout_marginBottom="20dp"
         app:menu="@menu/menu_bottomnavigation"
+        app:itemIconTint="@color/nav_item_color"
+        app:labelVisibilityMode="unlabeled"
+        app:itemBackground="@color/black"
         android:id="@+id/bottomNavigation"/>
 
 </LinearLayout>
