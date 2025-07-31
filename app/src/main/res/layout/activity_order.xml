@@ -123,7 +123,7 @@
 
                 <ImageView
                     android:id="@+id/img_choxacnhan"
-                    android:layout_width="32dp"
+                    android:layout_width="26dp"
                     android:layout_height="32dp"
                     android:layout_gravity="center"
                     android:src="@drawable/user_oder_witingfor_icon" />

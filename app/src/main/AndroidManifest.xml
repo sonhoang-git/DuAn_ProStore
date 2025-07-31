@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DuAn_ProStore">
         <activity
-            android:name=".useractivity.OderStatus_Activity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".useractivity.Contact_Activity"
@@ -27,7 +27,7 @@
             android:name=".useractivity.Order_Activity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".useractivity.OderStatus_Activity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
