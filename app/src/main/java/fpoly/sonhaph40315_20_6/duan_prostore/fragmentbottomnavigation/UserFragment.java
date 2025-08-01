@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,20 +28,27 @@ import fpoly.sonhaph40315_20_6.duan_prostore.useractivity.Order_Activity;
 public class UserFragment extends Fragment {
 
     private LinearLayout settingContainer;
-    private Toolbar toolbar_setting;
 
-    private ImageView img_btn_back_user;
     private TextView txt_title_user;
+
+    private ImageButton img_btn_back_user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user, container, false);
-        toolbar_setting = view.findViewById(R.id.toolbar_setting);
         settingContainer = view.findViewById(R.id.settingContainer);
-        img_btn_back_user = view.findViewById(R.id.img_btn_back_user);
+
         txt_title_user = view.findViewById(R.id.txt_title_user);
+        img_btn_back_user = view.findViewById(R.id.img_btn_back_user);
+        img_btn_back_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Gọi hàm ẩn bottom
         ((MainActivity)getActivity()) .hideBottomNav();
