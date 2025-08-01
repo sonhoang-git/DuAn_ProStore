@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +36,7 @@ public class HomeActivity extends AppCompatActivity {
         setupSearch();
         setupCategoryTabs();
         setupCartButton();
+        setupProfileButton(); // Thêm dòng này
     }
 
     private void setupProductList() {
@@ -91,7 +93,6 @@ public class HomeActivity extends AppCompatActivity {
             updateTabSelection(tvKids, tvAll, tvMen, tvWomen);
         });
 
-        // Mặc định chọn All
         tvAll.setTextColor(getResources().getColor(R.color.tab_selected));
     }
 
@@ -114,13 +115,22 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
 
-        adapter.filterList(filteredList); // Cần thêm phương thức này trong ProductAdapter
+        adapter.filterList(filteredList);
     }
 
     private void setupCartButton() {
         ImageButton btnCart = findViewById(R.id.btnCart);
         btnCart.setOnClickListener(v -> {
             startActivity(new Intent(HomeActivity.this, CartActivity.class));
+        });
+    }
+
+    // ✅ Mới thêm: Nút chuyển đến trang cá nhân
+    private void setupProfileButton() {
+        ImageView ivUser = findViewById(R.id.ivUser);
+        ivUser.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+            startActivity(intent);
         });
     }
 }
