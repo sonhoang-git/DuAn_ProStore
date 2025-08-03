@@ -47,8 +47,8 @@
 
                 <TextView
                     android:id="@+id/txt_item_shoppingCart_size"
-                    android:layout_width="70dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/bg_cartshopping_black_rounded"
                     android:gravity="center"
@@ -64,7 +64,7 @@
                     android:layout_marginLeft="6dp"
                     android:text="119K"
                     android:textColor="@color/white"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -74,7 +74,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="VND"
                     android:textColor="#FF9800"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -87,7 +87,7 @@
 
                 <TextView
                     android:id="@+id/txt_item_shoppingCart_giamsoluong"
-                    android:layout_width="48dp"
+                    android:layout_width="43dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_cartshopping_orange_rounded"
                     android:gravity="center_horizontal"
@@ -98,7 +98,7 @@
 
                 <TextView
                     android:id="@+id/txt_item_shoppingCart_soluong"
-                    android:layout_width="70dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
@@ -111,7 +111,7 @@
 
                 <TextView
                     android:id="@+id/txt_item_shoppingCart_tangsoluong"
-                    android:layout_width="48dp"
+                    android:layout_width="43dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_cartshopping_orange_rounded"
                     android:gravity="center"

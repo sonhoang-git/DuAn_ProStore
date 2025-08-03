@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.adapter.ProductList_Adapter;
-import fpoly.sonhaph40315_20_6.duan_prostore.modelbottomnavigation.ProductList_Model;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.ProductList_Model;
 
 
 public class ProductListFragment extends Fragment {

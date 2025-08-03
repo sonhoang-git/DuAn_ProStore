@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
-import fpoly.sonhaph40315_20_6.duan_prostore.modelbottomnavigation.ShoppingCart_Model;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.ShoppingCart_Model;
 
 public class ShoppingCart_Adapter extends RecyclerView.Adapter<ShoppingCart_Adapter.ViewHolder>{
 
