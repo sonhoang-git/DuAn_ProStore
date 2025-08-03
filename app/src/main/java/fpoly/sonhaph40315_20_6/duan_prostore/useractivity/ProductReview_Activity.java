@@ -39,7 +39,7 @@ public class ProductReview_Activity extends AppCompatActivity {
                 findViewById(R.id.star5)
         };
 
-        int yellow = ContextCompat.getColor(this, R.color.yellow);
+        int yellow = ContextCompat.getColor(this, R.color.colorPrimary);
         int gray = ContextCompat.getColor(this, R.color.gray);
 
         for (int i = 0; i < stars.length; i++) {

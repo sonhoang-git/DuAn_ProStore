@@ -5,6 +5,8 @@
     android:orientation="vertical"
     android:background="#121212"
     android:padding="16dp">
+<!--// đinh code-->
+
 
     <!-- Header với nút back -->
     <RelativeLayout

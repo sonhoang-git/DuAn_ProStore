@@ -24,7 +24,11 @@
 
 
     </style>
-
+    <style name="BottomNavNoHighlight" parent="">
+        <item name="android:width">0dp</item>
+        <item name="android:height">0dp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
     <style name="TabButton" parent="Widget.AppCompat.Button">
         <item name="android:layout_marginRight">8dp</item>
         <item name="android:background">@drawable/bg_tab_button</item>

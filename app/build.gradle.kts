@@ -25,38 +25,32 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
-dependencies {
 
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.activity)
-    implementation(libs.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-}
 dependencies {
-    implementation("com.google.android.gms:play-services-auth:21.0.0")
+    // Fix lỗi CoreComponentFactory
+    implementation("androidx.core:core:1.13.1")
+
+    // UI components
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.recyclerview:recyclerview:1.3.1")
-}
 
-dependencies {
+    // Google login
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
 
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.activity)
-    implementation(libs.constraintlayout)
+    // Glide (dùng thư viện alias từ libs.versions.toml)
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
+
+    // Unit testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation(libs.glide)
-    annotationProcessor(libs.glide.compiler)
 }

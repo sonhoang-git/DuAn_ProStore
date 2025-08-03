@@ -60,7 +60,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Quay lại
         btnBack.setOnClickListener(v -> {
-            startActivity(new Intent(this, HomeActivity.class));
             finish();
         });
     }

@@ -7,6 +7,9 @@
     android:orientation="vertical"
     tools:context=".HomeActivity">
 
+
+
+<!--    Định code đã copy-->
     <!-- Header -->
     <RelativeLayout
         android:layout_width="match_parent"

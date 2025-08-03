@@ -97,9 +97,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void updateTabSelection(TextView selectedTab, TextView... otherTabs) {
-        selectedTab.setTextColor(getResources().getColor(R.color.tab_selected));
+      selectedTab.setTextColor(getResources().getColor(R.color.tab_selected));
         for (TextView tab : otherTabs) {
-            tab.setTextColor(getResources().getColor(R.color.tab_unselected));
+           tab.setTextColor(getResources().getColor(R.color.tab_unselected));
         }
     }
 
