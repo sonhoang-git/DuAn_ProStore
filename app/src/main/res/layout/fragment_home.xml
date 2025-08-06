@@ -138,50 +138,5 @@
         android:paddingRight="16dp"
         android:clipToPadding="false" />
 
-<!--    &lt;!&ndash; Thanh điều hướng dưới &ndash;&gt;-->
-<!--    <LinearLayout-->
-<!--        android:id="@+id/bottomNav"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="56dp"-->
-<!--        android:background="#1E1E1E"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:weightSum="4">-->
 
-<!--        <ImageButton-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:src="@drawable/home"-->
-<!--            android:contentDescription="Home"-->
-<!--            android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--            android:tint="#D17842" />-->
-
-<!--        <ImageButton-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:src="@drawable/sanpham"-->
-<!--            android:contentDescription="Sản phẩm"-->
-<!--            android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--            android:tint="#888888" />-->
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/btnCart"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:src="@drawable/giohang"-->
-<!--            android:contentDescription="Giỏ hàng"-->
-<!--            android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--            android:tint="#888888" />-->
-
-<!--        <ImageButton-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:src="@drawable/canhan"-->
-<!--            android:contentDescription="Cá nhân"-->
-<!--            android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--            android:tint="#888888" />-->
-<!--    </LinearLayout>-->
 </LinearLayout>

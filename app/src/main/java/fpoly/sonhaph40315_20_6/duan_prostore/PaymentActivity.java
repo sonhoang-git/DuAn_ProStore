@@ -77,9 +77,9 @@ public class PaymentActivity extends AppCompatActivity {
                 "Thanh toán bằng tài khoản ngân hàng thành công!";
 
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        CartManager.getInstance().clearCart();
+        CartManager.getInstance(this).clearCart();
 
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();

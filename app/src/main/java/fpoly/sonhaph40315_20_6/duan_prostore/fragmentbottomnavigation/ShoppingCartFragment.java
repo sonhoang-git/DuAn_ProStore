@@ -26,16 +26,12 @@ import fpoly.sonhaph40315_20_6.duan_prostore.PaymentActivity;
 import fpoly.sonhaph40315_20_6.duan_prostore.Product;
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.adapter.ShoppingCart_Adapter;
+import fpoly.sonhaph40315_20_6.duan_prostore.dao.GioHang_Dao;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.ShoppingCart_Model;
 
 
 public class ShoppingCartFragment extends Fragment implements CartAdapter.OnCartChangedListener {
 
-//    RecyclerView recyclerView_shoppingCart;
-//    TextView txt_shoppingCart_tonggiatien;
-//    Button btn_shoppingCart_thanhtoan;
-//    ArrayList<ShoppingCart_Model> arrayList_ShoppingCart;
-//    ShoppingCart_Adapter shoppingCartAdapter;
 
     ///  định code
     private RecyclerView rcvCart;
@@ -44,33 +40,19 @@ public class ShoppingCartFragment extends Fragment implements CartAdapter.OnCart
     private ImageButton btnBack;
     private CartAdapter adapter;
     private double total; // Declare total at class level.
+    private GioHang_Dao gioHang_dao;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shopping_cart, container, false);
-//        recyclerView_shoppingCart = view.findViewById(R.id.recyclerView_shoppingCart);
-//        txt_shoppingCart_tonggiatien = view.findViewById(R.id.txt_shoppingCart_tonggiatien);
-//        btn_shoppingCart_thanhtoan = view.findViewById(R.id.btn_shoppingCart_thanhtoan);
-//
-//        arrayList_ShoppingCart = new ArrayList<>();
-//        arrayList_ShoppingCart.add(new ShoppingCart_Model( R.drawable.product_useravata_icon, 1, "Áo trẻ em", 100));
-//        arrayList_ShoppingCart.add(new ShoppingCart_Model(R.drawable.product_useravata_icon, 1, "Áo trẻ em", 100));
-//        arrayList_ShoppingCart.add(new ShoppingCart_Model(R.drawable.product_useravata_icon, 1, "Áo trẻ em", 100));
-//        arrayList_ShoppingCart.add(new ShoppingCart_Model(R.drawable.product_useravata_icon, 1, "Áo trẻ em", 100));
-//        arrayList_ShoppingCart.add(new ShoppingCart_Model(R.drawable.product_useravata_icon, 1, "Áo trẻ em", 100));
-//
-//
-//        shoppingCartAdapter = new ShoppingCart_Adapter(getContext(),arrayList_ShoppingCart);
-//        recyclerView_shoppingCart.setLayoutManager(new LinearLayoutManager(getContext()));
-//        recyclerView_shoppingCart.setAdapter(shoppingCartAdapter);
+
 
         rcvCart = view.findViewById(R.id.rcvCart);
         tvTotal = view.findViewById(R.id.tvTotalPrice);
         btnCheckout = view.findViewById(R.id.btnCheckout);
         btnBack = view.findViewById(R.id.btnBack);
-
+        gioHang_dao = new GioHang_Dao(requireContext());
         setupRecyclerView();
         updateTotal();
 
@@ -95,7 +77,8 @@ public class ShoppingCartFragment extends Fragment implements CartAdapter.OnCart
     }
 
     private void setupRecyclerView() {
-        List<Product> cartItems = CartManager.getInstance().getCartItems();
+//        List<Product> cartItems = CartManager.getInstance().getCartItems();
+        List<Product> cartItems = gioHang_dao.getAllGioHang();
         adapter = new CartAdapter(getContext(), cartItems, this);
         rcvCart.setLayoutManager(new LinearLayoutManager(getContext()));
         rcvCart.setAdapter(adapter);
@@ -103,7 +86,8 @@ public class ShoppingCartFragment extends Fragment implements CartAdapter.OnCart
 
     private void updateTotal() {
         total = 0;
-        for (Product item : CartManager.getInstance().getCartItems()) {
+        List<Product> cartItems = gioHang_dao.getAllGioHang();
+        for (Product item : cartItems) {
             total += item.getPriceAsDouble() * item.getQuantity();
         }
         tvTotal.setText(String.format("%,.0f VND", total));
@@ -111,11 +95,7 @@ public class ShoppingCartFragment extends Fragment implements CartAdapter.OnCart
 
     @Override
     public void onCartUpdated() {
+        adapter.updateData(gioHang_dao.getAllGioHang()); // gọi adapter cập nhật lại danh sách
         updateTotal();
-
-        // If cart is empty, return to previous screen
-        if (CartManager.getInstance().getCartItems().isEmpty()) {
-
-        }
     }
 }

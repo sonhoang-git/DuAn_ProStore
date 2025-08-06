@@ -19,16 +19,52 @@ public class Product implements Serializable {
         this.category = category;
     }
 
+
+//    public Product(int imageResId, String name, String price, int quantity, String size, String category) {
+//        this.imageResId = imageResId;
+//        this.name = name;
+//        this.price = price;
+//        this.quantity = 1;
+//        this.size = "M";
+//        this.category = category;
+//    }
+
     // Getter và Setter
-    public int getImageResId() { return imageResId; }
-    public String getName() { return name; }
-    public String getPrice() { return price; }
-    public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
-    public String getSize() { return size; }
-    public void setSize(String size) { this.size = size; }
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public int getImageResId() {
+        return imageResId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public double getPriceAsDouble() {
         try {

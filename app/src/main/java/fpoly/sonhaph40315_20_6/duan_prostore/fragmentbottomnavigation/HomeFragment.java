@@ -13,19 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fpoly.sonhaph40315_20_6.duan_prostore.CartActivity;
-import fpoly.sonhaph40315_20_6.duan_prostore.HomeActivity;
 import fpoly.sonhaph40315_20_6.duan_prostore.Product;
 import fpoly.sonhaph40315_20_6.duan_prostore.ProductAdapter;
 import fpoly.sonhaph40315_20_6.duan_prostore.ProfileActivity;
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
+import fpoly.sonhaph40315_20_6.duan_prostore.dao.SanPham_Dao;
+import fpoly.sonhaph40315_20_6.duan_prostore.database.SanPham_Database;
 
 
 public class HomeFragment extends Fragment {
@@ -37,6 +36,8 @@ public class HomeFragment extends Fragment {
     private String currentCategory = "All";
     private View view;
 
+    private SanPham_Dao sanPhamDao;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class HomeFragment extends Fragment {
 
         rcvProducts = view.findViewById(R.id.rcvProducts);
         etSearch = view.findViewById(R.id.etSearch);
-
+        sanPhamDao = new SanPham_Dao(new SanPham_Database(getContext()),getContext());
         setupProductList();
         setupSearch();
         setupCategoryTabs();
@@ -57,11 +58,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupProductList() {
-        originalProductList = new ArrayList<>();
-        originalProductList.add(new Product(R.drawable.ic_kids1, "Áo trẻ em", "119,000 VND", "Kids"));
-        originalProductList.add(new Product(R.drawable.ic_kids2, "Áo thể thao nam", "139,000 VND", "Men"));
-        originalProductList.add(new Product(R.drawable.ic_kids3, "Quần đùi nam", "99,000 VND", "Men"));
-        originalProductList.add(new Product(R.drawable.ic_kids4, "Áo trễ vai nữ", "159,000 VND", "Women"));
+        originalProductList = sanPhamDao.getSanPham();
 
         adapter = new ProductAdapter(getContext(), originalProductList);
         rcvProducts.setLayoutManager(new GridLayoutManager(getContext(), 2));

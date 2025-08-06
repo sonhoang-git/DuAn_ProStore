@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import fpoly.sonhaph40315_20_6.duan_prostore.dao.GioHang_Dao;
+
 public class ProductDetailActivity extends AppCompatActivity {
 
     private Product product;
@@ -39,7 +41,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         Button btnSizeXL = findViewById(R.id.btnSizeXL);
 
         // Nhận dữ liệu sản phẩm
-        product = (Product) getIntent().getSerializableExtra("product");
+//        product = (Product) getIntent().getSerializableExtra("product");
+         product = (Product) getIntent().getSerializableExtra("product");
         if (product == null) {
             showErrorAndExit();
             return;
@@ -65,11 +68,13 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void displayProductInfo(ImageView imgView, TextView nameView,
                                     TextView priceView, TextView descView,
                                     TextView deliveryView) {
+        if (product != null) {
         imgView.setImageResource(product.getImageResId());
         nameView.setText(product.getName());
-        priceView.setText(product.getPrice());
+        priceView.setText(String.valueOf(product.getPrice()));
         descView.setText(productDescription);
         deliveryView.setText("Giao hàng từ 1-3 ngày");
+        }
     }
 
     private void setupSizeButtons(Button... sizeButtons) {
@@ -93,8 +98,10 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void addToCart() {
         product.setSize(selectedSize);
-        CartManager.getInstance().addToCart(product);
-        showSuccessMessage();
+        GioHang_Dao gioHang_dao = new GioHang_Dao(ProductDetailActivity.this);
+        gioHang_dao.add_GioHang(product);
+        showSuccessMessage(); // Hiển thị size trong thông báo
+        Toast.makeText(this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
     }
 
     private void showSuccessMessage() {

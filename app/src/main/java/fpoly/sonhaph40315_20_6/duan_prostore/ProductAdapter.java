@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import fpoly.sonhaph40315_20_6.duan_prostore.dao.GioHang_Dao;
+
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private Context context;
@@ -45,10 +47,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             intent.putExtra("product", product);
             context.startActivity(intent);
         });
-
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra("product", product); // Gửi đối tượng Product qua
+            context.startActivity(intent);
+        });
         // Xử lý khi click nút thêm vào giỏ
         holder.btnAdd.setOnClickListener(v -> {
-            CartManager.getInstance().addToCart(product);
+        //    CartManager.getInstance().addToCart(product);
+            GioHang_Dao gioHang_dao = new GioHang_Dao(context);
+            gioHang_dao.add_GioHang(product); // thêm sản phẩm vào SQLite
             Toast.makeText(context, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
         });
     }

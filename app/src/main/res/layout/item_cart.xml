@@ -64,7 +64,8 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_plus"
-
+            android:clickable="true"
+            android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"/>
 
         <TextView
@@ -80,7 +81,8 @@
             android:id="@+id/btnPlus"
             android:layout_width="24dp"
             android:layout_height="24dp"
-
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_minus"
             android:background="?attr/selectableItemBackgroundBorderless"/>
     </LinearLayout>
