@@ -1,64 +1,107 @@
 package fpoly.sonhaph40315_20_6.duan_prostore;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SanPhamFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
+
+import fpoly.sonhaph40315_20_6.duan_prostore.Adapter.SanPhamAdapter;
+import fpoly.sonhaph40315_20_6.duan_prostore.Dao.SanPhamDao;
+import fpoly.sonhaph40315_20_6.duan_prostore.Model.SanPham;
+import fpoly.sonhaph40315_20_6.duan_prostore.R;
+
 public class SanPhamFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView recyclerView;
+    private SanPhamAdapter adapter;
+    private SanPhamDao dao;
+    private List<SanPham> sanPhamList;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public SanPhamFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SanPhamFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SanPhamFragment newInstance(String param1, String param2) {
-        SanPhamFragment fragment = new SanPhamFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public SanPhamFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_san_pham, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        recyclerView = view.findViewById(R.id.recyclerSanPham);
+        dao = new SanPhamDao(requireContext());
+
+        // Nếu chưa có sản phẩm nào, thêm dữ liệu mẫu
+        if (dao.getAllProducts().isEmpty()) {
+            insertFakeData(dao);
+        }
+
+        // Lấy danh sách sản phẩm từ DAO
+        sanPhamList = dao.getAllProducts();
+
+        // Khởi tạo adapter
+        adapter = new SanPhamAdapter(requireContext(), sanPhamList, new SanPhamAdapter.OnProductActionListener() {
+            @Override
+            public void onEdit(SanPham product) {
+                DialogSuaSanPham dialog = DialogSuaSanPham.newInstance(product);
+                dialog.setOnProductUpdatedListener(() -> loadProductList());
+                dialog.show(getChildFragmentManager(), "EditDialog");
+            }
+
+            @Override
+            public void onDelete(SanPham product) {
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Xoá sản phẩm")
+                        .setMessage("Bạn có chắc chắn muốn xoá sản phẩm này?")
+                        .setPositiveButton("Xoá", (dialog, which) -> {
+                            dao.deleteProduct(product.getId());
+                            loadProductList();
+                        })
+                        .setNegativeButton("Huỷ", null)
+                        .show();
+            }
+        });
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.setAdapter(adapter);
+
+        FloatingActionButton fab = view.findViewById(R.id.fabAddProduct);
+        fab.setOnClickListener(v -> {
+            DialogThemSanPham dialog = new DialogThemSanPham();
+            dialog.setOnProductAddedListener(() -> loadProductList()); // cập nhật danh sách sau khi thêm
+            dialog.show(getChildFragmentManager(), "AddProductDialog");
+        });
+
+
+    }
+
+    private void insertFakeData(SanPhamDao dao) {
+        dao.insertProduct(new SanPham(0, "Áo thun nam basic", 150000, 10, "L", "Áo", "android.resource://fpoly.sonhaph40315_20_6.duan_prostore/drawable/ao_tre_em1", "25/07/2025"));
+        dao.insertProduct(new SanPham(0, "Áo sơ mi trắng", 230000, 8, "M", "Áo", "android.resource://fpoly.sonhaph40315_20_6.duan_prostore/drawable/ao_tre_em2", "24/07/2025"));
+        dao.insertProduct(new SanPham(0, "Quần jeans rách", 320000, 5, "32", "Quần", "android.resource://fpoly.sonhaph40315_20_6.duan_prostore/drawable/quan_jeans", "23/07/2025"));
+
+    }
+
+    private void loadProductList() {
+        if (dao != null && sanPhamList != null && adapter != null) {
+            sanPhamList.clear();
+            sanPhamList.addAll(dao.getAllProducts());
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+
 }

@@ -4,7 +4,7 @@ public class Order {
     private int id;
     private String tenKhachHang;
     private String ngayDat;
-    private String sanPham;     // ⬅️ Thêm dòng này
+    private String sanPham;
     private double tongTien;
     private String trangThai;
 

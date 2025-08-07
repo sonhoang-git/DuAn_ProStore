@@ -2,7 +2,7 @@ package fpoly.sonhaph40315_20_6.duan_prostore.Model;
 
 import java.io.Serializable;
 
-public class SanPham implements Serializable {
+public class SanPhamChiTiet implements Serializable {
     private int id;
     private String name;
     private double price;
@@ -11,8 +11,9 @@ public class SanPham implements Serializable {
     private String category;
     private String imagePath;
     private String date;
+    private String description;
 
-    public SanPham(int id, String name, double price, int quantity, String size, String category, String imagePath, String date) {
+    public SanPhamChiTiet(int id, String name, double price, int quantity, String size, String category, String imagePath, String date, String description) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -21,6 +22,7 @@ public class SanPham implements Serializable {
         this.category = category;
         this.imagePath = imagePath;
         this.date = date;
+        this.description = description;
     }
 
     public int getId() {
@@ -85,5 +87,13 @@ public class SanPham implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
