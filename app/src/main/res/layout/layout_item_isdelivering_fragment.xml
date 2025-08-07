@@ -88,6 +88,16 @@
                 android:text="Đang giao"
                 android:textColor="#FFC107"
                 android:textSize="13sp" />
+            <TextView
+                android:id="@+id/txt_layout_item_danggiao_soluong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="7dp"
+                android:text="Số lượng : 2"
+                android:textColor="#FFC107"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/txt_layout_item_danggiao_xemthongtin"

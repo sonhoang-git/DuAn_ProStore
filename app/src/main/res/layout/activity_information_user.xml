@@ -83,6 +83,7 @@
                 android:textSize="20sp" />
 
             <EditText
+                android:id="@+id/edt_information_name"
                 android:textColor="@color/white"
                 android:background="@drawable/bg_informationuser_edittext"
                 android:layout_width="match_parent"
@@ -104,6 +105,7 @@
                 android:textSize="20sp" />
 
             <EditText
+                android:id="@+id/edt_information_email"
                 android:textColor="@color/white"
                 android:background="@drawable/bg_informationuser_edittext"
                 android:layout_width="match_parent"
@@ -125,6 +127,7 @@
                 android:textSize="20sp" />
 
             <EditText
+                android:id="@+id/edt_information_phone"
                 android:textColor="@color/white"
                 android:background="@drawable/bg_informationuser_edittext"
                 android:layout_width="match_parent"
@@ -146,6 +149,7 @@
                 android:textSize="20sp" />
 
             <EditText
+                android:id="@+id/edt_information_address"
                 android:background="@drawable/bg_informationuser_edittext"
                 android:layout_width="match_parent"
                 android:textColor="@color/white"
@@ -153,6 +157,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/btn_information_save"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

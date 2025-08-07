@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.adapter.IsDelivering_Adapter;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.StatusOrder_Model;
 
 public class IsDelivering_Fragment extends Fragment {
@@ -23,7 +24,7 @@ public class IsDelivering_Fragment extends Fragment {
 
     private RecyclerView recyclerView_danggiao;
     private IsDelivering_Adapter dangGiaoDonHangAdapter;
-    private ArrayList<StatusOrder_Model> trangThaiModelArrayList;
+    private ArrayList<DonHang_Model> trangThaiModelArrayList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,9 +33,9 @@ public class IsDelivering_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_inde_divery_, container, false);
         recyclerView_danggiao = view.findViewById(R.id.recyclerView_danggiao);
         trangThaiModelArrayList = new ArrayList<>();
-        trangThaiModelArrayList.add(new StatusOrder_Model( R.drawable.product_useravata_icon,  "Áo trẻ em", 100, "Đang giao"));
-        trangThaiModelArrayList.add(new StatusOrder_Model( R.drawable.product_useravata_icon,  "Áo trẻ em", 100, "Đang giao"));
-        trangThaiModelArrayList.add(new StatusOrder_Model( R.drawable.product_useravata_icon,  "Áo trẻ em", 100, "Đang giao"));
+        trangThaiModelArrayList.add(new DonHang_Model( 1,  R.drawable.product_useravata_icon, "Aó trẻ em","100", "M",2,"Đang giao"));
+        trangThaiModelArrayList.add(new DonHang_Model( 2,  R.drawable.product_useravata_icon,"Aó trẻ em", "100", "M",2, "Đang giao"));
+        trangThaiModelArrayList.add(new DonHang_Model( 3,  R.drawable.product_useravata_icon, "Aó trẻ em","100", "M",2, "Đang giao"));
 
         dangGiaoDonHangAdapter = new IsDelivering_Adapter(getContext(),trangThaiModelArrayList);
         recyclerView_danggiao.setLayoutManager(new LinearLayoutManager(getContext()));

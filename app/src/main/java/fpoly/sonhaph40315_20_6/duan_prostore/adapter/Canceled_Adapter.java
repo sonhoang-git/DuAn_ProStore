@@ -16,15 +16,17 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.NguoiDung_Model;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.StatusOrder_Model;
 import fpoly.sonhaph40315_20_6.duan_prostore.useractivity.ProductReview_Activity;
 
 public class Canceled_Adapter extends RecyclerView.Adapter<Canceled_Adapter.ViewHolder>{
     private final Context context;
 
-    private final ArrayList<StatusOrder_Model> trangThaiModelArrayList;
+    private final ArrayList<DonHang_Model> trangThaiModelArrayList;
 
-    public Canceled_Adapter(Context context, ArrayList<StatusOrder_Model> trangThaiModelArrayList) {
+    public Canceled_Adapter(Context context, ArrayList<DonHang_Model> trangThaiModelArrayList) {
         this.context = context;
         this.trangThaiModelArrayList = trangThaiModelArrayList;
     }
@@ -38,18 +40,21 @@ public class Canceled_Adapter extends RecyclerView.Adapter<Canceled_Adapter.View
 
     @Override
     public void onBindViewHolder(@NonNull Canceled_Adapter.ViewHolder holder, int position) {
-        StatusOrder_Model item = trangThaiModelArrayList.get(position);
+        DonHang_Model item = trangThaiModelArrayList.get(position);
         Glide.with(context)
-                .load(item.getAvata())  // nếu là resource ID: int, Glide vẫn hỗ trợ
+                .load(item.getImageresid())  // nếu là resource ID: int, Glide vẫn hỗ trợ
                 .into(holder.img_layout_item_dahuy_avata);
         holder.txt_layout_item_dahuy_aotreem.setText(item.getName());
-        holder.txt_layout_item_dahuy_giatien.setText(String.valueOf(item.getGia()+ "K"));
-        holder.txt_layout_item_dahuy_trangthai.setText(item.getTrangthai());
+        holder.txt_layout_item_dahuy_giatien.setText(String.valueOf(item.getPrice()+ "K"));
+        holder.txt_layout_item_dahuy_trangthai.setText(item.getStatus());
         holder.txt_layout_item_dahuy_mualai.setOnClickListener(item1 -> {
 
         });
         holder.txt_layout_item_dahuy_danhgia.setOnClickListener(item1 -> {
             Intent intent = new Intent(context, ProductReview_Activity.class);
+            intent.putExtra("avata", item.getImageresid());
+            intent.putExtra("namesanpham", item.getName());
+            intent.putExtra("price", item.getPrice());
             context.startActivity(intent);
         });
     }

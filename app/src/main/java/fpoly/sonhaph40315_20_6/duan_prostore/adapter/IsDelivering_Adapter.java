@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.StatusOrder_Model;
 import fpoly.sonhaph40315_20_6.duan_prostore.useractivity.OrderInformation_Activity;
 import fpoly.sonhaph40315_20_6.duan_prostore.useractivity.ProductReview_Activity;
@@ -23,10 +24,10 @@ import fpoly.sonhaph40315_20_6.duan_prostore.useractivity.ProductReview_Activity
 public class IsDelivering_Adapter extends RecyclerView.Adapter<IsDelivering_Adapter.ViewHolder>{
     private final Context context;
 
-    private final ArrayList<StatusOrder_Model> trangThaiModelArrayList;
+    private final ArrayList<DonHang_Model> trangThaiModelArrayList;
 
 
-    public IsDelivering_Adapter(Context context, ArrayList<StatusOrder_Model> trangThaiModelArrayList) {
+    public IsDelivering_Adapter(Context context, ArrayList<DonHang_Model> trangThaiModelArrayList) {
         this.context = context;
         this.trangThaiModelArrayList = trangThaiModelArrayList;
     }
@@ -39,15 +40,20 @@ public class IsDelivering_Adapter extends RecyclerView.Adapter<IsDelivering_Adap
 
     @Override
     public void onBindViewHolder(@NonNull IsDelivering_Adapter.ViewHolder holder, int position) {
-        StatusOrder_Model item = trangThaiModelArrayList.get(position);
+        DonHang_Model item = trangThaiModelArrayList.get(position);
         Glide.with(context)
-                .load(item.getAvata())  // nếu là resource ID: int, Glide vẫn hỗ trợ
+                .load(item.getImageresid())  // nếu là resource ID: int, Glide vẫn hỗ trợ
                 .into(holder.img_layout_item_danggiao_avata);
         holder.txt_layout_item_danggiao_aotreem.setText(item.getName());
-        holder.txt_layout_item_danggiao_trangthai.setText(item.getTrangthai());
-        holder.txt_layout_item_danggiao_giatien.setText(String.valueOf(item.getGia()+ "K"));
+        holder.txt_layout_item_danggiao_trangthai.setText(item.getStatus());
+        holder.txt_layout_item_danggiao_giatien.setText(item.getPrice()+ "K");
+        holder.txt_layout_item_danggiao_soluong.setText(String.valueOf(item.getQuantity()));
         holder.txt_layout_item_danggiao_xemthongtin.setOnClickListener(item1 ->{
             Intent intent = new Intent(context, OrderInformation_Activity.class);
+            intent.putExtra("tensp", item.getName());
+            intent.putExtra("gia", item.getPrice());
+            intent.putExtra("avata", item.getImageresid());
+            intent.putExtra("soluong", item.getQuantity());
             context.startActivity(intent);
         });
     }
@@ -68,7 +74,7 @@ public class IsDelivering_Adapter extends RecyclerView.Adapter<IsDelivering_Adap
         TextView txt_layout_item_danggiao_vnd;
         TextView txt_layout_item_danggiao_trangthai;
         TextView txt_layout_item_danggiao_xemthongtin;
-
+        TextView txt_layout_item_danggiao_soluong;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,6 +85,7 @@ public class IsDelivering_Adapter extends RecyclerView.Adapter<IsDelivering_Adap
             txt_layout_item_danggiao_vnd = itemView.findViewById(R.id.txt_layout_item_danggiao_vnd);
             txt_layout_item_danggiao_trangthai = itemView.findViewById(R.id.txt_layout_item_danggiao_trangthai);
             txt_layout_item_danggiao_xemthongtin = itemView.findViewById(R.id.txt_layout_item_danggiao_xemthongtin);
+            txt_layout_item_danggiao_soluong = itemView.findViewById(R.id.txt_layout_item_danggiao_soluong);
         }
     }
 }

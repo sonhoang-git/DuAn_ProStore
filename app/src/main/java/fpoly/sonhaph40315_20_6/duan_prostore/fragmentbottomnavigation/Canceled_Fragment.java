@@ -13,15 +13,17 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
+import fpoly.sonhaph40315_20_6.duan_prostore.adapter.Canceled_Adapter;
 import fpoly.sonhaph40315_20_6.duan_prostore.adapter.IsDelivering_Adapter;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.StatusOrder_Model;
 
 
 public class Canceled_Fragment extends Fragment {
     // đã huỷ đơn hàng
     private RecyclerView recyclerView_dahuy;
-    private IsDelivering_Adapter daHuyDonHangAdapter;
-    private ArrayList<StatusOrder_Model> trangThaiModelArrayList;
+    private Canceled_Adapter daHuyDonHangAdapter;
+    private ArrayList<DonHang_Model> trangThaiModelArrayList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,11 +31,11 @@ public class Canceled_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_canceled_, container, false);
         recyclerView_dahuy = view.findViewById(R.id.recyclerView_dahuy);
         trangThaiModelArrayList = new ArrayList<>();
-        trangThaiModelArrayList.add(new StatusOrder_Model( R.drawable.product_useravata_icon,  "Áo trẻ em", 100, "Đã hủy"));
-        trangThaiModelArrayList.add(new StatusOrder_Model( R.drawable.product_useravata_icon,  "Áo trẻ em", 100, "Đã hủy"));
-        trangThaiModelArrayList.add(new StatusOrder_Model( R.drawable.product_useravata_icon,  "Áo trẻ em", 100, "Đã hủy"));
+        trangThaiModelArrayList.add(new DonHang_Model( 1,  R.drawable.product_useravata_icon, "Aó trẻ em","100", "M",2,"Đa huy"));
+        trangThaiModelArrayList.add(new DonHang_Model( 2,  R.drawable.product_useravata_icon,"Aó trẻ em", "100", "M",2, "Đa huy"));
+        trangThaiModelArrayList.add(new DonHang_Model( 3,  R.drawable.product_useravata_icon, "Aó trẻ em","100", "M",2, "Đa huy"));
 
-        daHuyDonHangAdapter = new IsDelivering_Adapter(getContext(),trangThaiModelArrayList);
+        daHuyDonHangAdapter = new Canceled_Adapter(getContext(),trangThaiModelArrayList);
         recyclerView_dahuy.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView_dahuy.setAdapter(daHuyDonHangAdapter);
 
