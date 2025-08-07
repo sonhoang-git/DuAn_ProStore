@@ -5,6 +5,7 @@ public class StatusOrder_Model {
     private String name;
     private int gia;
     private String trangthai;
+    private int soluong;
 
     public StatusOrder_Model(int avata, String name, int gia, String trangthai) {
         this.avata = avata;

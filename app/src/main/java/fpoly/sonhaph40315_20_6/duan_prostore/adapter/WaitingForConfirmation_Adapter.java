@@ -10,9 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.StatusOrder_Model;
 
 public class WaitingForConfirmation_Adapter extends RecyclerView.Adapter<WaitingForConfirmation_Adapter.ViewHolder>{
@@ -20,9 +23,9 @@ public class WaitingForConfirmation_Adapter extends RecyclerView.Adapter<Waiting
    // Chờ xác nhận adapter
     private final Context context;
 
-    private final ArrayList<StatusOrder_Model> trangThaiModelArrayList;
+    private final ArrayList<DonHang_Model> trangThaiModelArrayList;
 
-    public WaitingForConfirmation_Adapter(Context context, ArrayList<StatusOrder_Model> trangThaiModelArrayList) {
+    public WaitingForConfirmation_Adapter(Context context, ArrayList<DonHang_Model> trangThaiModelArrayList) {
         this.context = context;
         this.trangThaiModelArrayList = trangThaiModelArrayList;
     }
@@ -36,11 +39,28 @@ public class WaitingForConfirmation_Adapter extends RecyclerView.Adapter<Waiting
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        StatusOrder_Model item = trangThaiModelArrayList.get(position);
-        holder.img_layout_item_choxacnhan_avata.setImageResource(item.getAvata());
+        DonHang_Model item = trangThaiModelArrayList.get(position);
+        holder.img_layout_item_choxacnhan_avata.setImageResource(item.getImageresid());
         holder.txt_layout_item_choxacnhan_aotreem.setText(item.getName());
-        holder.txt_layout_item_choxacnhan_trangthai.setText(item.getTrangthai());
-        holder.txt_layout_item_choxacnhan_giatien.setText(String.valueOf(item.getGia()+ "K"));
+        holder.txt_layout_item_choxacnhan_trangthai.setText(item.getStatus());
+
+        try {
+            int price = Integer.parseInt(item.getPrice()
+                    .replace(",", "")
+                    .replace(" VND", "")
+                    .replace("K", "")
+                    .trim());
+
+            int tongTien = price * item.getQuantity();
+
+            NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+            String formattedPrice = formatter.format(tongTien);
+
+            holder.txt_layout_item_choxacnhan_giatien.setText(formattedPrice);
+        } catch (NumberFormatException e) {
+            holder.txt_layout_item_choxacnhan_giatien.setText("0");
+        }
+        holder.txt_layout_item_choxacnhan_soluong.setText(String.valueOf("Số lương : "+item.getQuantity()));
     }
 
 
@@ -58,7 +78,7 @@ public class WaitingForConfirmation_Adapter extends RecyclerView.Adapter<Waiting
         TextView txt_layout_item_choxacnhan_giatien;
         TextView txt_layout_item_choxacnhan_vnd;
         TextView txt_layout_item_choxacnhan_trangthai;
-
+        TextView txt_layout_item_choxacnhan_soluong;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,7 +88,7 @@ public class WaitingForConfirmation_Adapter extends RecyclerView.Adapter<Waiting
             txt_layout_item_choxacnhan_giatien = itemView.findViewById(R.id.txt_layout_item_choxacnhan_giatien);
             txt_layout_item_choxacnhan_vnd = itemView.findViewById(R.id.txt_layout_item_choxacnhan_vnd);
             txt_layout_item_choxacnhan_trangthai = itemView.findViewById(R.id.txt_layout_item_choxacnhan_trangthai);
-
+            txt_layout_item_choxacnhan_soluong = itemView.findViewById(R.id.txt_layout_item_choxacnhan_soluong);
         }
     }
 }

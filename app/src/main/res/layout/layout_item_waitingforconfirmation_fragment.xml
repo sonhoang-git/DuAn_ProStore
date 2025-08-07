@@ -75,7 +75,16 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
-
+            <TextView
+                android:id="@+id/txt_layout_item_choxacnhan_soluong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Số lượng : 2 "
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="7dp"
+                android:textColor="#FFC107"
+                android:textSize="13sp" />
             <TextView
                 android:id="@+id/txt_layout_item_choxacnhan_trangthai"
                 android:layout_width="wrap_content"

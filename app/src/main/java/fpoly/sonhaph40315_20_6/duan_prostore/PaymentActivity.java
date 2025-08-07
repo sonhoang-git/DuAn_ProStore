@@ -10,6 +10,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import fpoly.sonhaph40315_20_6.duan_prostore.dao.DonHang_Dao;
+import fpoly.sonhaph40315_20_6.duan_prostore.dao.GioHang_Dao;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
+
 public class PaymentActivity extends AppCompatActivity {
 
     private FrameLayout creditCardWrapper, bankAccountWrapper;
@@ -72,16 +76,33 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void processPayment() {
-        String message = isCreditCardSelected ?
-                "Thanh toán bằng thẻ tín dụng thành công!" :
-                "Thanh toán bằng tài khoản ngân hàng thành công!";
 
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        CartManager.getInstance(this).clearCart();
+        CartManager cartManager = CartManager.getInstance(this);
+        GioHang_Dao gioHangDao = new GioHang_Dao(this);
+        DonHang_Dao donHangDao = new DonHang_Dao(this);
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
+        for (Product item : CartManager.getInstance(this).getCartItems()) {
+            DonHang_Model donHang = new DonHang_Model(
+                    0,
+                    item.getImageResId(),
+                    item.getName(),
+                    item.getPrice(),
+                    item.getSize(),
+                    item.getQuantity(),
+                    "Chờ xác nhận"
+            );
+            donHangDao.add_DonHang(donHang);
+            String message = isCreditCardSelected ?
+                    "Thanh toán bằng thẻ tín dụng thành công!" :
+                    "Thanh toán bằng tài khoản ngân hàng thành công!";
+
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            CartManager.getInstance(this).clearCart();
+
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 }

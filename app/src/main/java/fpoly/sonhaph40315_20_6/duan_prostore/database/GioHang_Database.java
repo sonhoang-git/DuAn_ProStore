@@ -23,11 +23,19 @@ public class GioHang_Database extends SQLiteOpenHelper {
                 "quantity integer)";
         db.execSQL(create_GioHang);
 
+        String create_DonHang = "create table DonHang(id integer primary key autoincrement, " +
+                "imageresid integer ," +
+                "name text,price text ," +
+                "size text," +
+                "quantity integer," +
+                "status text)";
+        db.execSQL(create_DonHang);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("drop table if exists GioHang");
+        db.execSQL("drop table if exists DonHang");
         onCreate(db);
     }
 }

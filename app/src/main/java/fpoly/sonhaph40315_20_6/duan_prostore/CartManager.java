@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.dao.GioHang_Dao;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
 
 public class CartManager {
     private Context context;
@@ -18,7 +19,9 @@ public class CartManager {
 //        gioHang_dao = new GioHang_Dao(context);
 //        cartItems = new ArrayList<>(gioHangDao.getAll_GioHang());
     }
-
+    public List<Product> getCartItems() {
+        return gioHang_dao.getAllGioHang();
+    }
 
     public static CartManager getInstance(Context context) {
         if (instance == null) {
@@ -27,47 +30,6 @@ public class CartManager {
         return instance;
     }
 
-//    public void addToCart(Product product) {
-//        for (Product item : cartItems) {
-//            if (item.getName().equals(product.getName()) && item.getSize().equals(product.getSize())) {
-//                item.setQuantity(item.getQuantity() + 1);
-//                return;
-//            }
-//        }
-//        // Nếu chưa có sản phẩm giống (name + size), thêm mới vào giỏ
-//        product.setQuantity(1);
-//        cartItems.add(product);
-//    }
-//
-//    public void removeFromCart(Product product) {
-//        for (Product item : cartItems) {
-//            if (item.getName().equals(product.getName()) && item.getSize().equals(product.getSize())) {
-//                if (item.getQuantity() > 1) {
-//                    item.setQuantity(item.getQuantity() - 1);
-//                } else {
-//                    cartItems.remove(item);
-//                }
-//                return;
-//            }
-//        }
-//    }
-//
-//    public void clearCart() {
-//        cartItems.clear();
-//    }
-//
-//    public List<Product> getCartItems() {
-//        return new ArrayList<>(cartItems);
-//    }
-//
-//    public double getTotalAmount() {
-//        double total = 0;
-//        for (Product item : cartItems) {
-//            total += Double.parseDouble(item.getPrice()) * item.getQuantity();
-//
-//        }
-//        return total;
-//    }
 
     public void add_GioHang(Product product) {
         gioHang_dao.add_GioHang(product);

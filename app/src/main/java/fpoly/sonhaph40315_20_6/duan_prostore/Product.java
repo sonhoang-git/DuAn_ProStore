@@ -20,14 +20,6 @@ public class Product implements Serializable {
     }
 
 
-//    public Product(int imageResId, String name, String price, int quantity, String size, String category) {
-//        this.imageResId = imageResId;
-//        this.name = name;
-//        this.price = price;
-//        this.quantity = 1;
-//        this.size = "M";
-//        this.category = category;
-//    }
 
     // Getter và Setter
     public int getImageResId() {
