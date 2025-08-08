@@ -10,8 +10,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 import fpoly.sonhaph40315_20_6.duan_prostore.dao.DonHang_Dao;
-import fpoly.sonhaph40315_20_6.duan_prostore.dao.GioHang_Dao;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
 
 public class PaymentActivity extends AppCompatActivity {
@@ -22,6 +23,7 @@ public class PaymentActivity extends AppCompatActivity {
     private Button btnPayment;
     private boolean isCreditCardSelected = true;
     private double totalAmount;
+    private Product product; // Nhận sản phẩm từ OrderDetailActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,7 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
 
         initViews();
-        receiveTotalAmount();
+        receiveData();
         setupEventListeners();
         updatePaymentUI();
     }
@@ -42,8 +44,26 @@ public class PaymentActivity extends AppCompatActivity {
         btnPayment = findViewById(R.id.btnPayment);
     }
 
-    private void receiveTotalAmount() {
+    private void receiveData() {
+        // Trường hợp 1: Nhận từ OrderDetailActivity
         totalAmount = getIntent().getDoubleExtra("TOTAL_AMOUNT", 0);
+        product = (Product) getIntent().getSerializableExtra("product");
+
+        // Nếu product null thì tính từ giỏ hàng
+        if (product == null) {
+            List<Product> cartItems = CartManager.getInstance(this).getCartItems();
+            if (!cartItems.isEmpty()) {
+                totalAmount = 0;
+                for (Product p : cartItems) {
+                    try {
+                        totalAmount += Double.parseDouble(p.getPrice()) * p.getQuantity();
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
         tvTotalAmount.setText(String.format("Tổng\n%,.0f VND", totalAmount));
     }
 
@@ -59,7 +79,6 @@ public class PaymentActivity extends AppCompatActivity {
         });
 
         btnPayment.setOnClickListener(v -> processPayment());
-
         btnBack.setOnClickListener(v -> finish());
     }
 
@@ -76,33 +95,50 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void processPayment() {
-
-        CartManager cartManager = CartManager.getInstance(this);
-        GioHang_Dao gioHangDao = new GioHang_Dao(this);
         DonHang_Dao donHangDao = new DonHang_Dao(this);
 
-        for (Product item : CartManager.getInstance(this).getCartItems()) {
+        if (product != null) {
+            // Thanh toán 1 sản phẩm từ OrderDetailActivity
             DonHang_Model donHang = new DonHang_Model(
                     0,
-                    item.getImageResId(),
-                    item.getName(),
-                    item.getPrice(),
-                    item.getSize(),
-                    item.getQuantity(),
+                    product.getImageResId(),
+                    product.getName(),
+                    product.getPrice(),
+                    product.getSize(),
+                    product.getQuantity(),
                     "Chờ xác nhận"
             );
             donHangDao.add_DonHang(donHang);
-            String message = isCreditCardSelected ?
-                    "Thanh toán bằng thẻ tín dụng thành công!" :
-                    "Thanh toán bằng tài khoản ngân hàng thành công!";
-
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        } else {
+            // Thanh toán toàn bộ giỏ hàng
+            List<Product> cartItems = CartManager.getInstance(this).getCartItems();
+            if (cartItems.isEmpty()) {
+                Toast.makeText(this, "Giỏ hàng trống", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            for (Product p : cartItems) {
+                DonHang_Model donHang = new DonHang_Model(
+                        0,
+                        p.getImageResId(),
+                        p.getName(),
+                        p.getPrice(),
+                        p.getSize(),
+                        p.getQuantity(),
+                        "Chờ xác nhận"
+                );
+                donHangDao.add_DonHang(donHang);
+            }
             CartManager.getInstance(this).clearCart();
-
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
         }
+
+        String message = isCreditCardSelected
+                ? "Thanh toán bằng thẻ tín dụng thành công!"
+                : "Thanh toán bằng ngân hàng thành công!";
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }
