@@ -2,7 +2,6 @@
 
     <!-- Theme gốc của app -->
     <style name="Theme.YourAppName" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Customize theme ở đây -->
         <item name="colorPrimary">#D17842</item>
         <item name="colorPrimaryVariant">#A05C30</item>
         <item name="colorOnPrimary">#FFFFFF</item>
@@ -17,18 +16,24 @@
         <item name="android:background">@drawable/edittext_background</item>
         <item name="android:padding">10dp</item>
         <item name="android:textColor">#FFFFFF</item>
-        <item name="hintTextColor">#888888</item> <!-- KHÔNG có android: prefix -->
-
-
-
-
-
+        <item name="android:textColorHint">#888888</item>
     </style>
+
+    <!-- Style cho nút màu cam -->
+    <style name="OrangeButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">#D17842</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <!-- Style ẩn highlight ở bottom nav -->
     <style name="BottomNavNoHighlight" parent="">
         <item name="android:width">0dp</item>
         <item name="android:height">0dp</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
+
+    <!-- Style cho nút tab -->
     <style name="TabButton" parent="Widget.AppCompat.Button">
         <item name="android:layout_marginRight">8dp</item>
         <item name="android:background">@drawable/bg_tab_button</item>
@@ -39,6 +44,7 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
+    <!-- Style cho nút chọn size -->
     <style name="SizeButtonStyle">
         <item name="android:backgroundTint">#1E1E1E</item>
         <item name="android:insetTop">0dp</item>

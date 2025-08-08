@@ -32,9 +32,7 @@
         <activity
             android:name=".useractivity.Order_Activity"
             android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
-            android:exported="false" />
+
         <activity android:name=".ProductDetailActivity"
             android:exported="false"/>
         <activity android:name=".CartActivity"
@@ -43,6 +41,8 @@
         <activity android:name=".PaymentActivity"
             android:exported="false"/>
         <activity android:name=".ProfileActivity"
+            android:exported="false"/>
+        <activity android:name=".OrderDetailActivity"
             android:exported="false"/>
         <activity
             android:name=".MainActivity"
