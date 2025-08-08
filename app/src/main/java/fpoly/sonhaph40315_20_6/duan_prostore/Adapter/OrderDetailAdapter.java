@@ -17,6 +17,7 @@ import fpoly.sonhaph40315_20_6.duan_prostore.Model.OrderDetail;
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 
 public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.ViewHolder> {
+
     private Context context;
     private List<OrderDetail> list;
 
@@ -47,7 +48,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTenSanPham, tvSoLuong, tvGia;
 
         public ViewHolder(@NonNull View itemView) {
@@ -58,4 +59,3 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         }
     }
 }
-

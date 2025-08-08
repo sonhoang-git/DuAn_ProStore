@@ -63,6 +63,8 @@ public class AdminActivity extends AppCompatActivity {
                 selectedFragment = new DanhGiaFragment();
             } else if (id == R.id.nav_product) {
                 selectedFragment = new SanPhamFragment();
+            } else if (id == R.id.nav_contact) {
+                selectedFragment = new ContactFragment();
             } else if (id == R.id.nav_logout) {
                 startActivity(new Intent(AdminActivity.this, LoginActivity.class));
                 finish();

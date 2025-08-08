@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.Adapter.OrderAdapter;
+import fpoly.sonhaph40315_20_6.duan_prostore.Dao.OrderDao;
 import fpoly.sonhaph40315_20_6.duan_prostore.Model.Order;
 
 public class DonHangFragment extends Fragment {
@@ -42,8 +43,6 @@ public class DonHangFragment extends Fragment {
         // Ánh xạ view
         rcvDonHang = view.findViewById(R.id.rcvDonHang);
         icMenu = view.findViewById(R.id.icMenu);
-
-        // Lấy Drawer từ Activity chứa fragment
         drawerLayout = requireActivity().findViewById(R.id.drawer_layout);
         navigationView = requireActivity().findViewById(R.id.nav_view);
 
@@ -54,21 +53,16 @@ public class DonHangFragment extends Fragment {
             }
         });
 
-        // Khởi tạo danh sách đơn hàng và adapter
-        donHangList = new ArrayList<>();
-        fakeData(); // Thêm dữ liệu mẫu
+        // Lấy dữ liệu từ database
+        OrderDao orderDao = new OrderDao(getContext());
+        donHangList = orderDao.getAll();
 
+        // Setup RecyclerView
         adapter = new OrderAdapter(getContext(), donHangList, getParentFragmentManager());
         rcvDonHang.setLayoutManager(new LinearLayoutManager(getContext()));
         rcvDonHang.setAdapter(adapter);
 
         return view;
-    }
-
-    private void fakeData() {
-        donHangList.add(new Order(1, "Nguyễn Văn A", "2025-07-25", "Áo thun nam", 129000, "Đã giao"));
-        donHangList.add(new Order(2, "Trần Thị B", "2025-07-26", "Áo khoác nữ", 245000, "Đang giao"));
-        donHangList.add(new Order(3, "Lê Văn C", "2025-07-27", "Quần jean nam", 350000, "Chưa giao"));
     }
 
     @Override

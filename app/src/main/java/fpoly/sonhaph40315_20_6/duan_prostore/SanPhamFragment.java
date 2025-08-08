@@ -2,6 +2,7 @@ package fpoly.sonhaph40315_20_6.duan_prostore;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,7 +21,6 @@ import java.util.List;
 import fpoly.sonhaph40315_20_6.duan_prostore.Adapter.SanPhamAdapter;
 import fpoly.sonhaph40315_20_6.duan_prostore.Dao.SanPhamDao;
 import fpoly.sonhaph40315_20_6.duan_prostore.Model.SanPham;
-import fpoly.sonhaph40315_20_6.duan_prostore.R;
 
 public class SanPhamFragment extends Fragment {
 
@@ -44,16 +44,14 @@ public class SanPhamFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerSanPham);
         dao = new SanPhamDao(requireContext());
 
-        // Nếu chưa có sản phẩm nào, thêm dữ liệu mẫu
+        // Chèn dữ liệu mẫu nếu danh sách trống
         if (dao.getAllProducts().isEmpty()) {
             insertFakeData(dao);
         }
 
-        // Lấy danh sách sản phẩm từ DAO
         sanPhamList = dao.getAllProducts();
 
-        // Khởi tạo adapter
-        adapter = new SanPhamAdapter(requireContext(), sanPhamList, new SanPhamAdapter.OnProductActionListener() {
+        adapter = new SanPhamAdapter(requireContext(), sanPhamList, false, new SanPhamAdapter.OnProductActionListener() {
             @Override
             public void onEdit(SanPham product) {
                 DialogSuaSanPham dialog = DialogSuaSanPham.newInstance(product);
@@ -78,21 +76,19 @@ public class SanPhamFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
 
-        FloatingActionButton fab = view.findViewById(R.id.fabAddProduct);
-        fab.setOnClickListener(v -> {
+        // Xử lý nút Add
+        FloatingActionButton fabAdd = view.findViewById(R.id.fabAddProduct);
+        fabAdd.setOnClickListener(v -> {
             DialogThemSanPham dialog = new DialogThemSanPham();
-            dialog.setOnProductAddedListener(() -> loadProductList()); // cập nhật danh sách sau khi thêm
+            dialog.setOnProductAddedListener(() -> loadProductList());
             dialog.show(getChildFragmentManager(), "AddProductDialog");
         });
-
-
     }
 
-    private void insertFakeData(SanPhamDao dao) {
-        dao.insertProduct(new SanPham(0, "Áo thun nam basic", 150000, 10, "L", "Áo", "android.resource://fpoly.sonhaph40315_20_6.duan_prostore/drawable/ao_tre_em1", "25/07/2025"));
-        dao.insertProduct(new SanPham(0, "Áo sơ mi trắng", 230000, 8, "M", "Áo", "android.resource://fpoly.sonhaph40315_20_6.duan_prostore/drawable/ao_tre_em2", "24/07/2025"));
-        dao.insertProduct(new SanPham(0, "Quần jeans rách", 320000, 5, "32", "Quần", "android.resource://fpoly.sonhaph40315_20_6.duan_prostore/drawable/quan_jeans", "23/07/2025"));
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadProductList();
     }
 
     private void loadProductList() {
@@ -103,5 +99,9 @@ public class SanPhamFragment extends Fragment {
         }
     }
 
-
+    private void insertFakeData(SanPhamDao dao) {
+        dao.insertProduct(new SanPham(0, "Áo thun nam basic", 150000, 10, "L", "Áo", "android.resource://fpoly.sonhaph40315_20_6.duan_prostore/drawable/ao_tre_em1", "25/07/2025"));
+        dao.insertProduct(new SanPham(0, "Áo sơ mi trắng", 230000, 8, "M", "Áo", "android.resource://fpoly.sonhaph40315_20_6.duan_prostore/drawable/ao_tre_em2", "24/07/2025"));
+        dao.insertProduct(new SanPham(0, "Quần jeans rách", 320000, 5, "32", "Quần", "android.resource://fpoly.sonhaph40315_20_6.duan_prostore/drawable/quan_jeans", "23/07/2025"));
+    }
 }

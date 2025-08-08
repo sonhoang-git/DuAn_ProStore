@@ -1,65 +1,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingVertical="12dp"
-    android:background="#FFFFFF"
-    android:weightSum="6"
-    android:divider="?android:dividerHorizontal"
-    android:showDividers="middle">
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="#ffffff"
+    android:elevation="2dp"
+    android:layout_marginBottom="8dp">
 
-    <!-- Mã đơn -->
-    <TextView
-        android:id="@+id/tvMaDon"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="mod1"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:gravity="center"/>
+    <TextView android:id="@+id/tvTenKhachHang" android:textStyle="bold" android:textSize="16sp"
+        android:layout_width="match_parent" android:layout_height="wrap_content" />
 
-    <!-- Sản phẩm -->
-    <TextView
-        android:id="@+id/tvSanPham"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="áo thun nam"
-        android:textSize="14sp"
-        android:gravity="center"/>
+    <TextView android:id="@+id/tvSanPham" android:layout_width="match_parent" android:layout_height="wrap_content" />
 
-    <!-- Tổng tiền -->
-    <TextView
-        android:id="@+id/tvTongTien"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="123k"
-        android:textSize="14sp"
-        android:gravity="center"/>
+    <TextView android:id="@+id/tvTongTien" android:layout_width="match_parent" android:layout_height="wrap_content" />
 
-    <!-- Ngày -->
-    <TextView
-        android:id="@+id/tvNgay"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="25/7"
-        android:textSize="14sp"
-        android:gravity="center"/>
+    <TextView android:id="@+id/tvNgayDat" android:layout_width="match_parent" android:layout_height="wrap_content" />
 
-    <!-- Trạng thái -->
-    <TextView
-        android:id="@+id/tvTrangThai"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="đang giao"
-        android:textColor="#C45D25"
-        android:textStyle="bold"
-        android:gravity="center"/>
-
-
-
+    <TextView android:id="@+id/tvTrangThai" android:textColor="#FF9800"
+        android:layout_width="match_parent" android:layout_height="wrap_content" />
 </LinearLayout>

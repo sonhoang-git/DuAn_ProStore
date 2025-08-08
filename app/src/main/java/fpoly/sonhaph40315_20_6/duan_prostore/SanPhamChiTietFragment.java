@@ -1,7 +1,5 @@
 package fpoly.sonhaph40315_20_6.duan_prostore;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.Model.SanPham;
 
@@ -43,15 +43,20 @@ public class SanPhamChiTietFragment extends Fragment {
             SanPham sp = (SanPham) bundle.getSerializable("sanpham");
             if (sp != null) {
                 tvName.setText(sp.getName());
-                tvPrice.setText("Giá: " + sp.getPrice() + " VNĐ");
+                tvPrice.setText("Giá: " + String.format("%,.0f", sp.getPrice()) + " VNĐ");
                 tvSize.setText("Size: " + sp.getSize());
                 tvCategory.setText("Loại: " + sp.getCategory());
                 tvQuantity.setText("Số lượng: " + sp.getQuantity());
                 tvDate.setText("Ngày: " + sp.getDate());
 
+                // Dùng Glide để load ảnh
                 if (sp.getImagePath() != null && !sp.getImagePath().isEmpty()) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(sp.getImagePath());
-                    imgProduct.setImageBitmap(bitmap);
+                    Glide.with(requireContext())
+                            .load(Uri.parse(sp.getImagePath()))
+                            .placeholder(R.drawable.ic_product)
+                            .into(imgProduct);
+                } else {
+                    imgProduct.setImageResource(R.drawable.ic_product);
                 }
             }
         }

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import fpoly.sonhaph40315_20_6.duan_prostore.Dao.DanhGiaDao;
 import fpoly.sonhaph40315_20_6.duan_prostore.Adapter.DanhGiaAdapter;
 import fpoly.sonhaph40315_20_6.duan_prostore.Model.DanhGia;
 
@@ -35,8 +36,9 @@ public class DanhGiaFragment extends Fragment {
         rcvDanhGia = view.findViewById(R.id.rcvDanhGia);
         tvTieuDe = view.findViewById(R.id.tvTieuDe);
 
-        danhGiaList = new ArrayList<>();
-        fakeData();
+        DanhGiaDao dao = new DanhGiaDao(getContext());
+        danhGiaList = dao.getAll();
+
 
         adapter = new DanhGiaAdapter(getContext(), danhGiaList);
         adapter.setData(danhGiaList);
@@ -74,10 +76,5 @@ public class DanhGiaFragment extends Fragment {
         popupMenu.show();
     }
 
-    private void fakeData() {
-        danhGiaList.add(new DanhGia(1, "Nguyễn Văn A", "Áo thun", 5, "Rất đẹp, giao nhanh", "12:10 31/07/2025"));
-        danhGiaList.add(new DanhGia(2, "Nguyễn Văn B", "Áo khoác", 4, "Đáng tiền", "13:00 30/07/2025"));
-        danhGiaList.add(new DanhGia(3, "Nguyễn Văn C", "Quần jean", 3, "Tạm ổn", "14:15 29/07/2025"));
-        danhGiaList.add(new DanhGia(4, "Nguyễn Văn D", "Áo sơ mi", 5, "Tuyệt vời", "15:30 28/07/2025"));
-    }
+
 }
