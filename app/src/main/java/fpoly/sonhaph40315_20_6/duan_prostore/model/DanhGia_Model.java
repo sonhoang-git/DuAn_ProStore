@@ -3,7 +3,8 @@ package fpoly.sonhaph40315_20_6.duan_prostore.model;
 public class DanhGia_Model {
     private int id;
     private String address;
-    private int avata;
+    private String avata;
+
     private String namesanpham;
     private String userName;
     private int rating;
@@ -11,7 +12,7 @@ public class DanhGia_Model {
     private int price;
 
 
-    public DanhGia_Model(int id, String address, int avata, String namesanpham, String userName, int rating, String noidung, int price) {
+    public DanhGia_Model(int id, String address, String avata, String namesanpham, String userName, int rating, String noidung, int price) {
         this.id = id;
         this.address = address;
         this.avata = avata;
@@ -21,6 +22,7 @@ public class DanhGia_Model {
         this.noidung = noidung;
         this.price = price;
     }
+
 
     public int getId() {
         return id;
@@ -37,12 +39,11 @@ public class DanhGia_Model {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    public int getAvata() {
+    public String getAvata() {
         return avata;
     }
 
-    public void setAvata(int avata) {
+    public void setAvata(String avata) {
         this.avata = avata;
     }
 
@@ -91,7 +92,6 @@ public class DanhGia_Model {
         return "DanhGia_Model{" +
                 "id=" + id +
                 ", address='" + address + '\'' +
-                ", avata=" + avata +
                 ", namesanpham='" + namesanpham + '\'' +
                 ", userName='" + userName + '\'' +
                 ", rating=" + rating +

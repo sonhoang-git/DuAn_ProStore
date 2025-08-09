@@ -2,20 +2,18 @@ package fpoly.sonhaph40315_20_6.duan_prostore.useractivity;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.dao.DanhGia_Dao;
@@ -23,64 +21,97 @@ import fpoly.sonhaph40315_20_6.duan_prostore.model.DanhGia_Model;
 
 public class ProductReview_Activity extends AppCompatActivity {
 
-    ImageButton btn_back;
-    ImageView[] stars = new ImageView[5];
-    EditText edtNoiDung;
-    TextView tvTenSanPham, tvGia, tvTenUser, tvDiaChi;
-    ImageView imgSanPham;
-    Button btnSubmit;
-    int rating = 0;
-    DanhGia_Dao danhGiaDao;
+    private ImageButton btnBack;
+    private EditText edtReview;
+    private Button btnSubmit;
+    private ImageView[] stars;
+    private int selectedRating = 0;
+
+    private int colorYellow;
+    private int colorGray;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_product_review);
-        btn_back = findViewById(R.id.btn_back);
-        edtNoiDung = findViewById(R.id.edt_danhgia_noidung);
-        tvTenSanPham = findViewById(R.id.txt_danhgia_namesanpham);
-        tvGia = findViewById(R.id.txt_danhgia_price);
-        tvTenUser = findViewById(R.id.txt_danhgia_nameuser);
-        tvDiaChi = findViewById(R.id.txt_danhgia_diachi);
-        imgSanPham = findViewById(R.id.img_layout_item_choxacnhan_avata);
+
+        // Ánh xạ view
+        btnBack = findViewById(R.id.btn_back);
+        edtReview = findViewById(R.id.edt_danhgia_noidung);
         btnSubmit = findViewById(R.id.btnSubmit);
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-//        ImageView[] stars = {
-//                findViewById(R.id.star1),
-//                findViewById(R.id.star2),
-//                findViewById(R.id.star3),
-//                findViewById(R.id.star4),
-//                findViewById(R.id.star5)
-//        };
 
-        stars[0] = findViewById(R.id.star1);
-        stars[1] = findViewById(R.id.star2);
-        stars[2] = findViewById(R.id.star3);
-        stars[3] = findViewById(R.id.star4);
-        stars[4] = findViewById(R.id.star5);
+        stars = new ImageView[]{
+                findViewById(R.id.star1),
+                findViewById(R.id.star2),
+                findViewById(R.id.star3),
+                findViewById(R.id.star4),
+                findViewById(R.id.star5)
+        };
 
-        int yellow = ContextCompat.getColor(this, R.color.colorPrimary);
-        int gray = ContextCompat.getColor(this, R.color.gray);
+        // Lấy màu từ resources
+        colorYellow = ContextCompat.getColor(this, R.color.colorPrimary);
+        colorGray = ContextCompat.getColor(this, R.color.gray);
 
+        btnBack.setOnClickListener(v -> finish());
+
+        // Gán sự kiện click cho từng sao
         for (int i = 0; i < stars.length; i++) {
             final int index = i;
-            stars[i].setOnClickListener(v -> {
-                for (int j = 0; j < stars.length; j++) {
-                    if (j <= index) {
-                        stars[j].setColorFilter(yellow, PorterDuff.Mode.SRC_IN);
-                    } else {
-                        stars[j].setColorFilter(gray, PorterDuff.Mode.SRC_IN);
-                    }
-                }
-            });
-
+            stars[i].setOnClickListener(v -> setStarRating(index + 1));
         }
 
+        btnSubmit.setOnClickListener(v -> submitReview());
+    }
+
+    // Hàm set màu sao dựa theo số sao đã chọn
+    private void setStarRating(int rating) {
+        selectedRating = rating;
+        for (int i = 0; i < stars.length; i++) {
+            stars[i].setColorFilter(i < rating ? colorYellow : colorGray, PorterDuff.Mode.SRC_IN);
+        }
+    }
+
+    private void submitReview() {
+        String content = edtReview.getText().toString().trim();
+
+        if (selectedRating == 0) {
+            Toast.makeText(this, "Vui lòng chọn số sao", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (content.isEmpty()) {
+            Toast.makeText(this, "Vui lòng nhập nội dung đánh giá", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String avata = "";
+        String address = "";         // Nếu chưa có, để rỗng tạm
+        String productName = "Áo trẻ em";
+        String userName = "Nguyễn Văn A";
+        int price = 0;               // Nếu không có giá, đặt tạm 0 hoặc lấy giá thật
+
+        DanhGia_Model danhGia = new DanhGia_Model(
+                0,          // id mới nên để 0
+                address,
+                avata,
+                productName,
+                userName,
+                selectedRating,
+                content,
+                price
+        );
+
+        DanhGia_Dao dao = new DanhGia_Dao(this);
+        long result = dao.insertDanhGia(danhGia);
+        if (result > 0) {
+            Toast.makeText(this, "Gửi đánh giá thành công", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(this, "Gửi thất bại", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getCurrentTime() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(new Date());
     }
 }
-

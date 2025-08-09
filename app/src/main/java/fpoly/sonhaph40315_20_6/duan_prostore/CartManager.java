@@ -50,12 +50,11 @@ public class CartManager {
     public double getTotalAmount() {
         double total = 0;
         for (Product item : getgiohang_Item()) {
-            try {
-                total += Double.parseDouble(item.getPrice().replace(",", "").replace(" VND", "")) * item.getQuantity();
-            } catch (Exception ignored) {}
+            total += item.getPrice() * item.getQuantity();
         }
         return total;
     }
+
 
     public void clearCart() {
         gioHang_dao.clearCart();

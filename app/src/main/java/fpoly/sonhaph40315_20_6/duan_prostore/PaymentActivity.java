@@ -86,11 +86,12 @@ public class PaymentActivity extends AppCompatActivity {
                     0,
                     item.getImageResId(),
                     item.getName(),
-                    item.getPrice(),
+                    String.format("%,.0f VND", item.getPrice()),  // Chuyển double -> String có format tiền
                     item.getSize(),
                     item.getQuantity(),
                     "Chờ xác nhận"
             );
+
             donHangDao.add_DonHang(donHang);
             String message = isCreditCardSelected ?
                     "Thanh toán bằng thẻ tín dụng thành công!" :

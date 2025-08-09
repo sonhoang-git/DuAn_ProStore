@@ -88,10 +88,11 @@ public class ShoppingCartFragment extends Fragment implements CartAdapter.OnCart
         total = 0;
         List<Product> cartItems = gioHang_dao.getAllGioHang();
         for (Product item : cartItems) {
-            total += item.getPriceAsDouble() * item.getQuantity();
+            total += item.getPrice() * item.getQuantity(); // Dùng getPrice() trả về double
         }
         tvTotal.setText(String.format("%,.0f VND", total));
     }
+
 
     @Override
     public void onCartUpdated() {

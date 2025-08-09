@@ -7,14 +7,50 @@ public class NguoiDung_Model implements Serializable {
     private String fullname;
     private String email;
     private String phone;
+    private String role;
     private String address;
+    private String password;
 
-    public NguoiDung_Model(int id, String fullname, String email, String phone, String address) {
+    public NguoiDung_Model() {
+    }
+
+    public NguoiDung_Model(int id, String fullname, String email, String phone, String address){
         this.id = id;
         this.fullname = fullname;
         this.email = email;
         this.phone = phone;
         this.address = address;
+    }
+    public NguoiDung_Model(String fullname, String email, String password){
+        this.fullname = fullname;
+        this.email = email;
+        this.password = password;
+    }
+
+    public NguoiDung_Model(int id, String fullname, String email, String phone, String role, String address, String password) {
+        this.id = id;
+        this.fullname = fullname;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.address = address;
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public int getId() {

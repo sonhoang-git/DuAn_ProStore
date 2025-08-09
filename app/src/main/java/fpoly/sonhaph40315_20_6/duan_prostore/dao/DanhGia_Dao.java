@@ -36,7 +36,7 @@ public class DanhGia_Dao {
             do {
                 int id = cursor.getInt(0);
                 String address = cursor.getString(1);
-                int avata = cursor.getInt(2);
+                String avata = cursor.getString(2);
                 String nameSP = cursor.getString(3);
                 String user = cursor.getString(4);
                 int rating = cursor.getInt(5);

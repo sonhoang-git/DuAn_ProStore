@@ -19,40 +19,49 @@ public class GioHang_Dao {
         db = dbHelper.getWritableDatabase();
     }
 
-    public void add_GioHang(Product product) {
-        Cursor cursor = db.rawQuery("Select * from GioHang where name = ? and size = ?", new String[]{product.getName(), product.getSize()});
-        if (cursor.moveToFirst()) {
-            int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("quantity")) + 1;
-            ContentValues values = new ContentValues();
-            values.put("quantity", quantity);
-            db.update("GioHang", values, "name = ? and size = ?", new String[]{product.getName(), product.getSize()});
-
-        } else {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put("imageresid", product.getImageResId());
-            contentValues.put("name", product.getName());
-            contentValues.put("price", product.getPrice());
-            contentValues.put("size", product.getSize());
-            contentValues.put("quantity", 1);
-            db.insert("GioHang", null, contentValues);
+    public boolean add_GioHang(Product product) {
+        Cursor cursor = db.rawQuery("SELECT * FROM GioHang WHERE name = ? AND size = ?", new String[]{product.getName(), product.getSize()});
+        boolean result = false;
+        try {
+            if (cursor.moveToFirst()) {
+                int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("quantity")) + 1;
+                ContentValues values = new ContentValues();
+                values.put("quantity", quantity);
+                int rows = db.update("GioHang", values, "name = ? AND size = ?", new String[]{product.getName(), product.getSize()});
+                result = rows > 0;
+            } else {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("imageresid", product.getImageResId());
+                contentValues.put("name", product.getName());
+                contentValues.put("price", String.valueOf(product.getPrice())); // lưu dưới dạng String, convert sang double khi đọc
+                contentValues.put("size", product.getSize());
+                contentValues.put("quantity", product.getQuantity());
+                contentValues.put("category", product.getCategory());
+                long insertResult = db.insert("GioHang", null, contentValues);
+                result = insertResult != -1;
+            }
+        } finally {
+            cursor.close();
         }
-        cursor.close();
+        return result;
     }
+
     public void updateQuantity(String name, String size, int newQuantity) {
         ContentValues values = new ContentValues();
         values.put("quantity", newQuantity);
         db.update("GioHang", values, "name = ? AND size = ?", new String[]{name, size});
     }
+
     public void remove_GioHang(Product product) {
-        Cursor cursor = db.rawQuery("Select * from GioHang where name = ? and size = ?", new String[]{product.getName(), product.getSize()});
+        Cursor cursor = db.rawQuery("SELECT * FROM GioHang WHERE name = ? AND size = ?", new String[]{product.getName(), product.getSize()});
         if (cursor.moveToFirst()) {
             int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("quantity"));
             if (quantity > 1) {
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("quantity", quantity - 1);
-                db.update("GioHang", contentValues, "name = ? and size = ?", new String[]{product.getName(), product.getSize()});
+                db.update("GioHang", contentValues, "name = ? AND size = ?", new String[]{product.getName(), product.getSize()});
             } else {
-                db.delete("GioHang", "name = ? and size = ?", new String[]{product.getName(), product.getSize()});
+                db.delete("GioHang", "name = ? AND size = ?", new String[]{product.getName(), product.getSize()});
             }
         }
         cursor.close();
@@ -60,26 +69,33 @@ public class GioHang_Dao {
 
     public List<Product> getAllGioHang() {
         List<Product> list = new ArrayList<>();
-        Cursor cursor = db.rawQuery("Select * from GioHang", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM GioHang", null);
         if (cursor.moveToFirst()) {
             do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id")); // Nếu có cột id
                 int imageresid = cursor.getInt(cursor.getColumnIndexOrThrow("imageresid"));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-                String price = cursor.getString(cursor.getColumnIndexOrThrow("price"));
+                String priceStr = cursor.getString(cursor.getColumnIndexOrThrow("price"));
                 String size = cursor.getString(cursor.getColumnIndexOrThrow("size"));
                 int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("quantity"));
-                Product product = new Product( imageresid,name,price,"Cart");
-                product.setSize(size);
-                product.setQuantity(quantity);
+                String category = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+
+                double price = 0;
+                try {
+                    price = Double.parseDouble(priceStr.replaceAll("[^\\d.]", ""));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Product product = new Product(id, imageresid, name, price, quantity, size, category);
                 list.add(product);
             } while (cursor.moveToNext());
         }
         cursor.close();
         return list;
     }
+
     public void clearCart() {
         db.delete("GioHang", null, null);
     }
-
-
 }
