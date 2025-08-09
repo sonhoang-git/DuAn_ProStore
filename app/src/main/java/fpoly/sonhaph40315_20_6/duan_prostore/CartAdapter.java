@@ -45,7 +45,7 @@
 
             holder.imgProduct.setImageResource(item.getImageResId());
             holder.tvName.setText(item.getName());
-            holder.tvPrice.setText(item.getPrice());
+            holder.tvPrice.setText(String.valueOf(item.getPrice()));
             holder.tvSize.setText("Size: " + item.getSize());
             holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
 

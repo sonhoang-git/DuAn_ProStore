@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class NguoiDung_Database extends SQLiteOpenHelper {
     private static final String DB_NAME = "NguoiDung.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     public NguoiDung_Database(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -16,11 +16,15 @@ public class NguoiDung_Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String create_NguoiDung = "create table NguoiDung(id integer primary key autoincrement," +
-                "fullname text not null," +
-                "email text not null," +
-                "phone text not null," +
-                "address text not null)";
+        String create_NguoiDung = "CREATE TABLE NguoiDung (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "fullname TEXT NOT NULL, " +
+                "email TEXT NOT NULL UNIQUE, " +
+                "phone TEXT, " +
+                "address TEXT, " +
+                "password TEXT NOT NULL, " +     // thêm cột password
+                "role TEXT DEFAULT 'user'" +     // thêm cột role với giá trị mặc định 'user'
+                ")";
         sqLiteDatabase.execSQL(create_NguoiDung);
         String create_LienHe = "create table LienHe(id integer primary key autoincrement , " +
                 "fullname text not null , " +
