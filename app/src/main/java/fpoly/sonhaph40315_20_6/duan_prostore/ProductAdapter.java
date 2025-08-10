@@ -8,23 +8,31 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.NumberFormat;
 import java.util.List;
-
-import fpoly.sonhaph40315_20_6.duan_prostore.dao.GioHang_Dao;
+import java.util.Locale;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private Context context;
     private List<Product> productList;
+    private boolean isAdmin;
+    private OnProductActionListener listener;
 
-    public ProductAdapter(Context context, List<Product> productList) {
+    public interface OnProductActionListener {
+        void onEdit(Product product);
+        void onDelete(Product product);
+    }
+
+    public ProductAdapter(Context context, List<Product> productList, boolean isAdmin, OnProductActionListener listener) {
         this.context = context;
         this.productList = productList;
+        this.isAdmin = isAdmin;
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,28 +45,46 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productList.get(position);
+
         holder.imgProduct.setImageResource(product.getImageResId());
         holder.tvName.setText(product.getName());
-        holder.tvPrice.setText(product.getPrice());
 
-        // Xử lý khi click vào ảnh sản phẩm
-        holder.imgProduct.setOnClickListener(v -> {
+        String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(product.getPrice());
+        holder.tvPrice.setText(formattedPrice);
+
+        View.OnClickListener openDetail = v -> {
             Intent intent = new Intent(context, ProductDetailActivity.class);
             intent.putExtra("product", product);
             context.startActivity(intent);
-        });
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ProductDetailActivity.class);
-            intent.putExtra("product", product); // Gửi đối tượng Product qua
-            context.startActivity(intent);
-        });
-        // Xử lý khi click nút thêm vào giỏ
-        holder.btnAdd.setOnClickListener(v -> {
-        //    CartManager.getInstance().addToCart(product);
-            GioHang_Dao gioHang_dao = new GioHang_Dao(context);
-            gioHang_dao.add_GioHang(product); // thêm sản phẩm vào SQLite
-            Toast.makeText(context, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-        });
+        };
+
+        holder.imgProduct.setOnClickListener(openDetail);
+        holder.itemView.setOnClickListener(openDetail);
+
+        if (isAdmin) {
+            // Admin: show edit/delete, hide add to cart
+            holder.btnEdit.setVisibility(View.VISIBLE);
+            holder.btnDelete.setVisibility(View.VISIBLE);
+
+
+            holder.btnEdit.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onEdit(product);
+                }
+            });
+
+            holder.btnDelete.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onDelete(product);
+                }
+            });
+
+        } else {
+            // Customer: show add to cart, hide edit/delete
+            holder.btnEdit.setVisibility(View.GONE);
+            holder.btnDelete.setVisibility(View.GONE);
+
+        }
     }
 
     @Override
@@ -66,7 +92,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
-    // Thêm phương thức lọc sản phẩm
     public void filterList(List<Product> filteredList) {
         productList = filteredList;
         notifyDataSetChanged();
@@ -75,14 +100,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct;
         TextView tvName, tvPrice;
-        ImageButton btnAdd;
+        ImageButton  btnEdit, btnDelete;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             imgProduct = itemView.findViewById(R.id.imgProduct);
             tvName = itemView.findViewById(R.id.tvName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
-            btnAdd = itemView.findViewById(R.id.btnAddToCart);
+            btnEdit = itemView.findViewById(R.id.btnEdit);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
+
         }
     }
 }

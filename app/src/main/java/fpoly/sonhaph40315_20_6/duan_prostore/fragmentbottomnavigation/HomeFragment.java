@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
     private void setupProductList() {
         originalProductList = sanPhamDao.getSanPham();
 
-        adapter = new ProductAdapter(getContext(), originalProductList);
+        adapter = new ProductAdapter(getContext(), originalProductList,false,null);
         rcvProducts.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rcvProducts.setAdapter(adapter);
     }

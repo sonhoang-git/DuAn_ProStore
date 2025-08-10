@@ -101,13 +101,22 @@ public class PaymentActivity extends AppCompatActivity {
             // Thanh toán 1 sản phẩm từ OrderDetailActivity
             DonHang_Model donHang = new DonHang_Model(
                     0,
-                    product.getImageResId(),
-                    product.getName(),
-                    product.getPrice(),
-                    product.getSize(),
-                    product.getQuantity(),
-                    "Chờ xác nhận"
+
+                    item.getImageResId(),
+                    item.getName(),
+                    String.format("%,.0f VND", item.getPrice()),  // Chuyển double -> String có format tiền
+                    item.getSize(),
+                    item.getQuantity(),
+
+//                     product.getImageResId(),
+//                     product.getName(),
+//                     product.getPrice(),
+//                     product.getSize(),
+//                     product.getQuantity(),
+
+//                     "Chờ xác nhận"
             );
+
             donHangDao.add_DonHang(donHang);
         } else {
             // Thanh toán toàn bộ giỏ hàng
