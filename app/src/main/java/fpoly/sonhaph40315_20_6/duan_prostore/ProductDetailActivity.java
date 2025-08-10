@@ -1,5 +1,6 @@
 package fpoly.sonhaph40315_20_6.duan_prostore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -20,7 +21,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             "✔ Chất liệu: 100% Cotton\n" +
             "✔ Size: M - L - XL";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +33,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         TextView tvDescription = findViewById(R.id.tvProductDesc);
         TextView tvDelivery = findViewById(R.id.tvDelivery);
         Button btnAddToCart = findViewById(R.id.btnAddToCart);
+        Button btnOrderNow = findViewById(R.id.btnOrderNow);
         ImageButton btnBack = findViewById(R.id.btnBack);
 
         // Ánh xạ các nút size
@@ -41,8 +42,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         Button btnSizeXL = findViewById(R.id.btnSizeXL);
 
         // Nhận dữ liệu sản phẩm
-//        product = (Product) getIntent().getSerializableExtra("product");
-         product = (Product) getIntent().getSerializableExtra("product");
+        product = (Product) getIntent().getSerializableExtra("product");
         if (product == null) {
             showErrorAndExit();
             return;
@@ -54,9 +54,17 @@ public class ProductDetailActivity extends AppCompatActivity {
         // Xử lý chọn size
         setupSizeButtons(btnSizeM, btnSizeL, btnSizeXL);
 
-        // Xử lý nút thêm vào giỏ hàng
+        // Nút thêm vào giỏ hàng
         btnAddToCart.setOnClickListener(v -> addToCart());
 
+        // Nút đặt hàng
+        btnOrderNow.setOnClickListener(v -> {
+            Intent intent = new Intent(ProductDetailActivity.this, OrderDetailActivity.class);
+            intent.putExtra("product", product);
+            startActivity(intent);
+        });
+
+        // Nút quay lại
         btnBack.setOnClickListener(v -> finish());
     }
 
@@ -68,13 +76,11 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void displayProductInfo(ImageView imgView, TextView nameView,
                                     TextView priceView, TextView descView,
                                     TextView deliveryView) {
-        if (product != null) {
         imgView.setImageResource(product.getImageResId());
         nameView.setText(product.getName());
-        priceView.setText(String.valueOf(product.getPrice()));
+        priceView.setText(String.valueOf(product.getPrice())); // Chỉ hiển thị số, không parse double
         descView.setText(productDescription);
         deliveryView.setText("Giao hàng từ 1-3 ngày");
-        }
     }
 
     private void setupSizeButtons(Button... sizeButtons) {
@@ -84,7 +90,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                 updateSizeSelection(btn, sizeButtons);
             });
         }
-        // Chọn size M mặc định
         sizeButtons[0].setBackgroundTintList(
                 ContextCompat.getColorStateList(this, R.color.colorPrimary));
     }
@@ -100,11 +105,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         product.setSize(selectedSize);
         GioHang_Dao gioHang_dao = new GioHang_Dao(ProductDetailActivity.this);
         gioHang_dao.add_GioHang(product);
-        showSuccessMessage(); // Hiển thị size trong thông báo
-        Toast.makeText(this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-    }
-
-    private void showSuccessMessage() {
         Toast.makeText(this,
                 "Đã thêm " + product.getName() + " (Size " + selectedSize + ") vào giỏ hàng",
                 Toast.LENGTH_SHORT).show();
