@@ -30,7 +30,7 @@ public class ProductListFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_product_list, container, false);
         recyclerView_productList = view.findViewById(R.id.recyclerView_productList);
         arrayList_ProductList = new ArrayList<>();
-        arrayList_ProductList.add(new ProductList_Model(1,R.drawable.product_useravata_icon,"Áo trẻ em",100,100));
+        arrayList_ProductList.add(new ProductList_Model(1,R.drawable.ic_kids1,"Áo trẻ em",100,100));
         arrayList_ProductList.add(new ProductList_Model(1,R.drawable.product_useravata_icon,"Áo trẻ em",100,100));
         arrayList_ProductList.add(new ProductList_Model(1,R.drawable.product_useravata_icon,"Áo trẻ em",100,100));
         arrayList_ProductList.add(new ProductList_Model(1,R.drawable.product_useravata_icon,"Áo trẻ em",100,100));

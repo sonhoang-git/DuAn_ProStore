@@ -51,15 +51,11 @@ public class PaymentActivity extends AppCompatActivity {
 
         // Nếu product null thì tính từ giỏ hàng
         if (product == null) {
-            List<Product> cartItems = CartManager.getInstance(this).getCartItems();
+            List<Product> cartItems = CartManager.getInstance().getCartItems();
             if (!cartItems.isEmpty()) {
                 totalAmount = 0;
                 for (Product p : cartItems) {
-                    try {
-                        totalAmount += Double.parseDouble(p.getPrice()) * p.getQuantity();
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
+                    totalAmount += p.getPrice() * p.getQuantity();
                 }
             }
         }
@@ -101,26 +97,18 @@ public class PaymentActivity extends AppCompatActivity {
             // Thanh toán 1 sản phẩm từ OrderDetailActivity
             DonHang_Model donHang = new DonHang_Model(
                     0,
-
-                    item.getImageResId(),
-                    item.getName(),
-                    String.format("%,.0f VND", item.getPrice()),  // Chuyển double -> String có format tiền
-                    item.getSize(),
-                    item.getQuantity(),
-
-//                     product.getImageResId(),
-//                     product.getName(),
-//                     product.getPrice(),
-//                     product.getSize(),
-//                     product.getQuantity(),
-
-//                     "Chờ xác nhận"
+                    product.getImageResId(),
+                    product.getName(),
+                    String.format("%,.0f VND", product.getPrice()), // Đổi double -> String
+                    product.getSize(),
+                    product.getQuantity(),
+                    "Chờ xác nhận"
             );
-
             donHangDao.add_DonHang(donHang);
+
         } else {
             // Thanh toán toàn bộ giỏ hàng
-            List<Product> cartItems = CartManager.getInstance(this).getCartItems();
+            List<Product> cartItems = CartManager.getInstance().getCartItems();
             if (cartItems.isEmpty()) {
                 Toast.makeText(this, "Giỏ hàng trống", Toast.LENGTH_SHORT).show();
                 return;
@@ -130,21 +118,23 @@ public class PaymentActivity extends AppCompatActivity {
                         0,
                         p.getImageResId(),
                         p.getName(),
-                        p.getPrice(),
+                        String.format("%,.0f VND", p.getPrice()),
                         p.getSize(),
                         p.getQuantity(),
                         "Chờ xác nhận"
                 );
                 donHangDao.add_DonHang(donHang);
             }
-            CartManager.getInstance(this).clearCart();
+            CartManager.getInstance().clearCart();
         }
 
+        // Thông báo thanh toán thành công
         String message = isCreditCardSelected
                 ? "Thanh toán bằng thẻ tín dụng thành công!"
                 : "Thanh toán bằng ngân hàng thành công!";
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
+        // Quay về MainActivity
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

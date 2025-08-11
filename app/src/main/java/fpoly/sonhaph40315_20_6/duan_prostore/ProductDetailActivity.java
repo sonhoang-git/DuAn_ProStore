@@ -103,8 +103,14 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void addToCart() {
         product.setSize(selectedSize);
+
+        // Thêm vào database giỏ hàng
         GioHang_Dao gioHang_dao = new GioHang_Dao(ProductDetailActivity.this);
         gioHang_dao.add_GioHang(product);
+
+        // Thêm vào CartManager singleton
+        CartManager.getInstance().addToCart(product);
+
         Toast.makeText(this,
                 "Đã thêm " + product.getName() + " (Size " + selectedSize + ") vào giỏ hàng",
                 Toast.LENGTH_SHORT).show();
