@@ -1,64 +1,56 @@
 package fpoly.sonhaph40315_20_6.duan_prostore;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DonHangFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
+import fpoly.sonhaph40315_20_6.duan_prostore.adapter.DonHangAdapter;
+import fpoly.sonhaph40315_20_6.duan_prostore.dao.DonHang_Dao;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
+
 public class DonHangFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView recyclerView;
+    private DonHangAdapter adapter;
+    private DonHang_Dao donHangDao;
 
     public DonHangFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DonHangFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DonHangFragment newInstance(String param1, String param2) {
-        DonHangFragment fragment = new DonHangFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_don_hang, container, false);
+        View view = inflater.inflate(R.layout.fragment_don_hang, container, false);
+
+        recyclerView = view.findViewById(R.id.recyclerViewDonHang);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        donHangDao = new DonHang_Dao(getContext());
+        loadDonHangData();
+
+        return view;
+    }
+
+    private void loadDonHangData() {
+        ArrayList<DonHang_Model> list = donHangDao.getDonHangChoXacNhan();
+        adapter = new DonHangAdapter(list);
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Cập nhật lại danh sách khi quay lại fragment
+        loadDonHangData();
     }
 }

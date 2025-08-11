@@ -11,7 +11,7 @@ import fpoly.sonhaph40315_20_6.duan_prostore.R;
 public class SanPham_Database extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "SanPham.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 4;
 
     public SanPham_Database(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -32,7 +32,7 @@ public class SanPham_Database extends SQLiteOpenHelper {
 
         // Ví dụ thêm 1 số bản ghi mẫu
         String insert_SanPham = "INSERT INTO SanPham (imageResId, name, price, quantity, size, category) VALUES " +
-                "(" + R.drawable.ic_product + ", 'Áo Trẻ Em 1', 119000, 1, 'M', 'Kids')," +
+                "(" + R.drawable.ic_kids1 + ", 'Áo Trẻ Em 1', 119000, 1, 'M', 'Kids')," +
                 "(" + R.drawable.ic_kids2 + ", 'Áo Trẻ Em 2', 129000, 1, 'M', 'Kids')," +
                 "(" + R.drawable.ic_kids3 + ", 'Áo Nam 1', 199000, 1, 'M', 'Men')," +
                 "(" + R.drawable.ic_kids4 + ", 'Áo Nam 2', 139000, 1, 'M', 'Men')," +

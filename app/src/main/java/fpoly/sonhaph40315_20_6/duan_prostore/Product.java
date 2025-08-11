@@ -3,7 +3,7 @@ package fpoly.sonhaph40315_20_6.duan_prostore;
 import java.io.Serializable;
 
 public class Product implements Serializable {
-    private int id;             // id trong database
+    private int id;
     private int imageResId;
 
     private String name;

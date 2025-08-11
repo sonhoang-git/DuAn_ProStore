@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import fpoly.sonhaph40315_20_6.duan_prostore.dao.DonHang_Dao;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
+
 public class OrderDetailActivity extends AppCompatActivity {
 
     private ImageView imgProduct;
@@ -44,8 +47,8 @@ public class OrderDetailActivity extends AppCompatActivity {
         if (product != null) {
             imgProduct.setImageResource(product.getImageResId());
             tvProductName.setText(product.getName());
-            tvProductPrice.setText(product.getPrice());
-            tvTotalAmount.setText("Tổng tiền hàng: " + product.getPrice());
+            tvProductPrice.setText(String.format("%,.0f VND", product.getPrice()));
+            tvTotalAmount.setText(String.format("Tổng tiền hàng: %,.0f VND", product.getPrice() * product.getQuantity()));
         } else {
             Toast.makeText(this, "Không có sản phẩm!", Toast.LENGTH_SHORT).show();
         }
@@ -59,23 +62,31 @@ public class OrderDetailActivity extends AppCompatActivity {
         // Nút Thanh toán → sang PaymentActivity
         btnThanhToan.setOnClickListener(v -> {
             if (product != null) {
-                Intent intent = new Intent(OrderDetailActivity.this, PaymentActivity.class);
-                intent.putExtra("product", product);
+                // Lưu đơn hàng vào SQLite
+                DonHang_Dao donHangDao = new DonHang_Dao(OrderDetailActivity.this);
+                DonHang_Model donHang = new DonHang_Model(
+                        0,
+                        product.getImageResId(),
+                        product.getName(),
+                        String.format("%,.0f VND", product.getPrice()),
+                        product.getSize(),
+                        product.getQuantity(),
+                        "Chờ xác nhận"
+                );
+                donHangDao.add_DonHang(donHang);
 
-                // Parse giá từ String sang double (loại bỏ "VND" nếu có)
-                String priceStr = product.getPrice().replace(" VND", "").replace(",", "").trim();
-                double totalAmount = 0;
-                try {
-                    totalAmount = Double.parseDouble(priceStr) * product.getQuantity();
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
+                // Thông báo thành công
+                Toast.makeText(this, "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
 
-                intent.putExtra("TOTAL_AMOUNT", totalAmount);
+                // Mở MainActivity và yêu cầu hiển thị DonHangFragment
+                Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
+                intent.putExtra("openFragment", "DonHangFragment");
                 startActivity(intent);
+                finish();
             } else {
                 Toast.makeText(this, "Không có sản phẩm để thanh toán", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }

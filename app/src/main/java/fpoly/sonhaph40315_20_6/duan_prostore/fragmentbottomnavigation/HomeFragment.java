@@ -13,12 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fpoly.sonhaph40315_20_6.duan_prostore.CartActivity;
 import fpoly.sonhaph40315_20_6.duan_prostore.Product;
 import fpoly.sonhaph40315_20_6.duan_prostore.ProductAdapter;
 import fpoly.sonhaph40315_20_6.duan_prostore.ProfileActivity;
@@ -137,12 +139,12 @@ public class HomeFragment extends Fragment {
         adapter.filterList(filteredList);
     }
 
-//    private void setupCartButton() {
-//        ImageButton btnCart = view.findViewById(R.id.btnCart);
-//        btnCart.setOnClickListener(v -> {
-//            startActivity(new Intent(getContext(), CartActivity.class));
-//        });
-//    }
+   private void setupCartButton() {
+        ImageButton btnCart = view.findViewById(R.id.btnCart);
+        btnCart.setOnClickListener(v -> {
+           startActivity(new Intent(getContext(), CartActivity.class));
+        });
+   }
 
     // ✅ Mới thêm: Nút chuyển đến trang cá nhân
     private void setupProfileButton() {
