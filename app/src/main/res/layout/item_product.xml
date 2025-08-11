@@ -48,7 +48,7 @@
             android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/btnAddToCart"
+            android:id="@+id/btnAdd"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/bg_button_add"

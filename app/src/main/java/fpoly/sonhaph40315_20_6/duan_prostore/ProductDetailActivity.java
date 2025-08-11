@@ -109,7 +109,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         gioHang_dao.add_GioHang(product);
 
         // Thêm vào CartManager singleton
-        CartManager.getInstance(this).add_GioHang(product);
+        CartManager.getInstance().addToCart(product);
 
         Toast.makeText(this,
                 "Đã thêm " + product.getName() + " (Size " + selectedSize + ") vào giỏ hàng",

@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class GioHang_Database extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "GioHang.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     public GioHang_Database(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }

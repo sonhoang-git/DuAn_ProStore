@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -85,6 +86,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.btnDelete.setVisibility(View.GONE);
 
         }
+        holder.btnAdd.setOnClickListener(v -> {
+            CartManager.getInstance().addToCart(product);
+            Toast.makeText(context, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+        });
+
     }
 
     @Override
@@ -100,7 +106,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct;
         TextView tvName, tvPrice;
-        ImageButton  btnEdit, btnDelete;
+        ImageButton  btnEdit, btnDelete,btnAdd;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,6 +115,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tvPrice = itemView.findViewById(R.id.tvPrice);
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
+            btnAdd = itemView.findViewById(R.id.btnAdd);
 
         }
     }

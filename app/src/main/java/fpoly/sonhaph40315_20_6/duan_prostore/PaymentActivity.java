@@ -51,7 +51,7 @@ public class PaymentActivity extends AppCompatActivity {
 
         // Nếu product null thì tính từ giỏ hàng
         if (product == null) {
-            List<Product> cartItems = CartManager.getInstance(this).getCartItems();
+            List<Product> cartItems = CartManager.getInstance().getCartItems();
             if (!cartItems.isEmpty()) {
                 totalAmount = 0;
                 for (Product p : cartItems) {
@@ -108,7 +108,7 @@ public class PaymentActivity extends AppCompatActivity {
 
         } else {
             // Thanh toán toàn bộ giỏ hàng
-            List<Product> cartItems = CartManager.getInstance(this).getCartItems();
+            List<Product> cartItems = CartManager.getInstance().getCartItems();
             if (cartItems.isEmpty()) {
                 Toast.makeText(this, "Giỏ hàng trống", Toast.LENGTH_SHORT).show();
                 return;
@@ -125,7 +125,7 @@ public class PaymentActivity extends AppCompatActivity {
                 );
                 donHangDao.add_DonHang(donHang);
             }
-            CartManager.getInstance(this).clearCart();
+            CartManager.getInstance().clearCart();
         }
 
         // Thông báo thanh toán thành công
