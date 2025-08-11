@@ -20,20 +20,22 @@ public class GioHang_Dao {
     }
 
     public boolean add_GioHang(Product product) {
-        Cursor cursor = db.rawQuery("SELECT * FROM GioHang WHERE name = ? AND size = ?", new String[]{product.getName(), product.getSize()});
+        Cursor cursor = db.rawQuery("SELECT * FROM GioHang WHERE name = ? AND size = ?",
+                new String[]{product.getName(), product.getSize()});
         boolean result = false;
         try {
             if (cursor.moveToFirst()) {
                 int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("quantity")) + 1;
                 ContentValues values = new ContentValues();
                 values.put("quantity", quantity);
-                int rows = db.update("GioHang", values, "name = ? AND size = ?", new String[]{product.getName(), product.getSize()});
+                int rows = db.update("GioHang", values, "name = ? AND size = ?",
+                        new String[]{product.getName(), product.getSize()});
                 result = rows > 0;
             } else {
                 ContentValues contentValues = new ContentValues();
-                contentValues.put("imageresid", product.getImageResId());
+                contentValues.put("imageresid", product.getImageResId()); // Lưu đúng ảnh drawable
                 contentValues.put("name", product.getName());
-                contentValues.put("price", String.valueOf(product.getPrice())); // lưu dưới dạng String, convert sang double khi đọc
+                contentValues.put("price", String.valueOf(product.getPrice()));
                 contentValues.put("size", product.getSize());
                 contentValues.put("quantity", product.getQuantity());
                 contentValues.put("category", product.getCategory());
@@ -46,33 +48,12 @@ public class GioHang_Dao {
         return result;
     }
 
-    public void updateQuantity(String name, String size, int newQuantity) {
-        ContentValues values = new ContentValues();
-        values.put("quantity", newQuantity);
-        db.update("GioHang", values, "name = ? AND size = ?", new String[]{name, size});
-    }
-
-    public void remove_GioHang(Product product) {
-        Cursor cursor = db.rawQuery("SELECT * FROM GioHang WHERE name = ? AND size = ?", new String[]{product.getName(), product.getSize()});
-        if (cursor.moveToFirst()) {
-            int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("quantity"));
-            if (quantity > 1) {
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("quantity", quantity - 1);
-                db.update("GioHang", contentValues, "name = ? AND size = ?", new String[]{product.getName(), product.getSize()});
-            } else {
-                db.delete("GioHang", "name = ? AND size = ?", new String[]{product.getName(), product.getSize()});
-            }
-        }
-        cursor.close();
-    }
-
     public List<Product> getAllGioHang() {
         List<Product> list = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT * FROM GioHang", null);
         if (cursor.moveToFirst()) {
             do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id")); // Nếu có cột id
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 int imageresid = cursor.getInt(cursor.getColumnIndexOrThrow("imageresid"));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
                 String priceStr = cursor.getString(cursor.getColumnIndexOrThrow("price"));
@@ -87,8 +68,7 @@ public class GioHang_Dao {
                     e.printStackTrace();
                 }
 
-                Product product = new Product(id, imageresid, name, price, quantity, size, category);
-                list.add(product);
+                list.add(new Product(id, imageresid, name, price, quantity, size, category));
             } while (cursor.moveToNext());
         }
         cursor.close();

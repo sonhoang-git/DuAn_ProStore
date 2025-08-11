@@ -26,7 +26,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
-        // Ánh xạ view
         ImageView imgProduct = findViewById(R.id.imgProductDetail);
         TextView tvName = findViewById(R.id.tvProductName);
         TextView tvPrice = findViewById(R.id.tvProductPrice);
@@ -36,35 +35,25 @@ public class ProductDetailActivity extends AppCompatActivity {
         Button btnOrderNow = findViewById(R.id.btnOrderNow);
         ImageButton btnBack = findViewById(R.id.btnBack);
 
-        // Ánh xạ các nút size
         Button btnSizeM = findViewById(R.id.btnSizeM);
         Button btnSizeL = findViewById(R.id.btnSizeL);
         Button btnSizeXL = findViewById(R.id.btnSizeXL);
 
-        // Nhận dữ liệu sản phẩm
         product = (Product) getIntent().getSerializableExtra("product");
         if (product == null) {
             showErrorAndExit();
             return;
         }
 
-        // Hiển thị thông tin sản phẩm
         displayProductInfo(imgProduct, tvName, tvPrice, tvDescription, tvDelivery);
-
-        // Xử lý chọn size
         setupSizeButtons(btnSizeM, btnSizeL, btnSizeXL);
 
-        // Nút thêm vào giỏ hàng
         btnAddToCart.setOnClickListener(v -> addToCart());
-
-        // Nút đặt hàng
         btnOrderNow.setOnClickListener(v -> {
             Intent intent = new Intent(ProductDetailActivity.this, OrderDetailActivity.class);
             intent.putExtra("product", product);
             startActivity(intent);
         });
-
-        // Nút quay lại
         btnBack.setOnClickListener(v -> finish());
     }
 
@@ -78,7 +67,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                                     TextView deliveryView) {
         imgView.setImageResource(product.getImageResId());
         nameView.setText(product.getName());
-        priceView.setText(String.valueOf(product.getPrice())); // Chỉ hiển thị số, không parse double
+        priceView.setText(String.format("%,.0f VND", product.getPrice()));
         descView.setText(productDescription);
         deliveryView.setText("Giao hàng từ 1-3 ngày");
     }
@@ -104,11 +93,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void addToCart() {
         product.setSize(selectedSize);
 
-        // Thêm vào database giỏ hàng
-        GioHang_Dao gioHang_dao = new GioHang_Dao(ProductDetailActivity.this);
+        GioHang_Dao gioHang_dao = new GioHang_Dao(this);
         gioHang_dao.add_GioHang(product);
 
-        // Thêm vào CartManager singleton
         CartManager.getInstance().addToCart(product);
 
         Toast.makeText(this,

@@ -2,6 +2,7 @@ package fpoly.sonhaph40315_20_6.duan_prostore.fragmentbottomnavigation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import fpoly.sonhaph40315_20_6.duan_prostore.LoginActivity;
 import fpoly.sonhaph40315_20_6.duan_prostore.MainActivity;
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.useractivity.BankCard_Activity;
@@ -86,11 +88,18 @@ public class UserFragment extends Fragment {
 
                 startActivity(new Intent(context, Contact_Activity.class));
             } else if (title.equals("Đăng xuất")) {
+                // Xóa thông tin đăng nhập trong SharedPreferences
+                SharedPreferences sharedPreferences = requireContext().getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE);
+                sharedPreferences.edit().clear().apply();
 
-                Toast.makeText(context, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, MainActivity.class);
+                Toast.makeText(requireContext(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+
+                // Chuyển sang LoginActivity và kết thúc tất cả activity hiện tại để tránh quay lại màn trước đó
+                Intent intent = new Intent(requireContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
+
         });
         settingContainer.addView(item);
     }

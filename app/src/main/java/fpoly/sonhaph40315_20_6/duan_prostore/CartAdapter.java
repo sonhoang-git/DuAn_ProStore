@@ -1,7 +1,6 @@
 package fpoly.sonhaph40315_20_6.duan_prostore;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
-
-import fpoly.sonhaph40315_20_6.duan_prostore.Product;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
@@ -45,33 +40,43 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         Product product = cartItems.get(position);
 
+        // Hiển thị ảnh sản phẩm
+        if (product.getImageResId() != 0) {
+            holder.imgProduct.setImageResource(product.getImageResId());
+        } else {
+            holder.imgProduct.setImageResource(R.drawable.ic_kids1); // ảnh mặc định
+        }
+
         holder.tvName.setText(product.getName());
         holder.tvPrice.setText(String.format("%,.0f VND", product.getPrice()));
         holder.tvQuantity.setText(String.valueOf(product.getQuantity()));
         holder.tvSize.setText("Size: " + product.getSize());
 
-
+        // Nút tăng số lượng
         holder.btnIncrease.setOnClickListener(v -> {
-            product.setQuantity(product.getQuantity() + 1);
-            notifyItemChanged(position);
-            if (listener != null) listener.onCartUpdated();
-        });
-
-        holder.btnDecrease.setOnClickListener(v -> {
-            if (product.getQuantity() > 1) {
-                product.setQuantity(product.getQuantity() - 1);
-            } else {
-                cartItems.remove(position);
-                notifyItemRemoved(position);
+            int pos = holder.getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION && pos < cartItems.size()) {
+                Product p = cartItems.get(pos);
+                p.setQuantity(p.getQuantity() + 1);
+                notifyItemChanged(pos);
+                if (listener != null) listener.onCartUpdated();
             }
-            notifyItemChanged(position);
-            if (listener != null) listener.onCartUpdated();
         });
 
-        holder.btnDelete.setOnClickListener(v -> {
-            cartItems.remove(position);
-            notifyItemRemoved(position);
-            if (listener != null) listener.onCartUpdated();
+        // Nút giảm số lượng
+        holder.btnDecrease.setOnClickListener(v -> {
+            int pos = holder.getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION && pos < cartItems.size()) {
+                Product p = cartItems.get(pos);
+                if (p.getQuantity() > 1) {
+                    p.setQuantity(p.getQuantity() - 1);
+                    notifyItemChanged(pos);
+                } else {
+                    cartItems.remove(pos);
+                    notifyItemRemoved(pos);
+                }
+                if (listener != null) listener.onCartUpdated();
+            }
         });
     }
 
@@ -83,7 +88,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public static class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct;
         TextView tvName, tvPrice, tvQuantity, tvSize;
-        ImageButton btnIncrease, btnDecrease, btnDelete;
+        ImageButton btnIncrease, btnDecrease;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -94,7 +99,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             tvSize = itemView.findViewById(R.id.tvSize);
             btnIncrease = itemView.findViewById(R.id.btnIncrease);
             btnDecrease = itemView.findViewById(R.id.btnDecrease);
-            btnDelete = itemView.findViewById(R.id.btnDelete);
         }
     }
 }
