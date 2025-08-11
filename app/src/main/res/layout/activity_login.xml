@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#0C0C0C">
 
     <LinearLayout
@@ -85,14 +86,17 @@
             android:layout_marginBottom="16dp" />
 
         <!-- Nút Đăng nhập -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignIn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="Sign In"
             android:textColor="#FFFFFF"
-            android:background="@drawable/bg_button_orange"
+            app:cornerRadius="25dp"
+            app:backgroundTint="#D17842"
             android:layout_marginBottom="12dp" />
+
+
 
         <!-- Nút Google -->
         <Button
