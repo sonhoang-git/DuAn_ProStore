@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 public class Product implements Serializable {
     private int id;
-    private int imageResId;
+    private int imageResId; // ảnh từ resource drawable
+    private String imageUrl; // ảnh từ internet
 
     private String name;
     private double price;
@@ -12,6 +13,7 @@ public class Product implements Serializable {
     private String size;
     private String category;
 
+    // Constructor cho ảnh từ resource
     public Product(int id, int imageResId, String name, double price, int quantity, String size, String category) {
         this.id = id;
         this.imageResId = imageResId;
@@ -20,8 +22,20 @@ public class Product implements Serializable {
         this.quantity = quantity;
         this.size = size;
         this.category = category;
+        this.imageUrl = null; // mặc định null
     }
 
+    // Constructor cho ảnh từ URL
+    public Product(int id, String imageUrl, String name, double price, int quantity, String size, String category) {
+        this.id = id;
+        this.imageUrl = imageUrl;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.size = size;
+        this.category = category;
+        this.imageResId = 0; // mặc định 0
+    }
 
     public int getId() {
         return id;
@@ -37,6 +51,14 @@ public class Product implements Serializable {
 
     public void setImageResId(int imageResId) {
         this.imageResId = imageResId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getName() {
@@ -79,4 +101,3 @@ public class Product implements Serializable {
         this.category = category;
     }
 }
-
