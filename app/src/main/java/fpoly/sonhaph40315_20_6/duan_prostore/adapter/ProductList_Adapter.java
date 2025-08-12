@@ -1,6 +1,7 @@
 package fpoly.sonhaph40315_20_6.duan_prostore.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import fpoly.sonhaph40315_20_6.duan_prostore.Product;
+import fpoly.sonhaph40315_20_6.duan_prostore.ProductDetailActivity;
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.ProductList_Model;
 
 public class ProductList_Adapter extends RecyclerView.Adapter<ProductList_Adapter.ViewHolder> {
     private final Context context;
-    private final ArrayList<ProductList_Model> arrayList_ProductList;
+    private final ArrayList<Product> arrayList_ProductList;
 
-    public ProductList_Adapter(Context context, ArrayList<ProductList_Model> arrayList_ProductList) {
+    public ProductList_Adapter(Context context, ArrayList<Product> arrayList_ProductList) {
         this.context = context;
         this.arrayList_ProductList = arrayList_ProductList;
     }
@@ -33,11 +36,17 @@ public class ProductList_Adapter extends RecyclerView.Adapter<ProductList_Adapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ProductList_Model item = arrayList_ProductList.get(position);
-        holder.img_item_productlist_avata.setImageResource(item.getProductList_Image());
-        holder.txt_item_productlist_txtaotreem.setText(item.getProductList_Name());
-        holder.txt_item_productlist_giatien.setText(String.valueOf(item.getProductList_Price() + "K"));
-        holder.txt_item_productlist_soluongdaban.setText(String.valueOf(item.getProductList_quantitySold()));
+        Product item = arrayList_ProductList.get(position);
+        holder.img_item_productlist_avata.setImageResource(item.getImageResId());
+        holder.txt_item_productlist_txtaotreem.setText(item.getName());
+        holder.txt_item_productlist_giatien.setText(String.valueOf(item.getPrice() + "K"));
+        holder.txt_item_productlist_soluongdaban.setText(String.valueOf(item.getQuantity()));
+        holder.itemView.setOnClickListener(item1 ->{
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra("product",item);
+            context.startActivity(intent);
+        });
+
     }
 
     @Override

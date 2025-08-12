@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import fpoly.sonhaph40315_20_6.duan_prostore.Product;
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.adapter.ProductList_Adapter;
+import fpoly.sonhaph40315_20_6.duan_prostore.dao.SanPham_Dao;
+import fpoly.sonhaph40315_20_6.duan_prostore.database.SanPham_Database;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.ProductList_Model;
 
 
@@ -21,7 +24,9 @@ public class ProductListFragment extends Fragment {
 
     private RecyclerView recyclerView_productList;
     private ProductList_Adapter productListAdapter;
-    private ArrayList<ProductList_Model> arrayList_ProductList;
+    private ArrayList<Product> arrayList_ProductList;
+    private SanPham_Database sanPham_database;
+    private SanPham_Dao sanPham_dao;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,15 +34,12 @@ public class ProductListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_product_list, container, false);
         recyclerView_productList = view.findViewById(R.id.recyclerView_productList);
-        arrayList_ProductList = new ArrayList<>();
-        arrayList_ProductList.add(new ProductList_Model(1,R.drawable.ic_kids1,"Áo trẻ em",100,100));
-        arrayList_ProductList.add(new ProductList_Model(1,R.drawable.product_useravata_icon,"Áo trẻ em",100,100));
-        arrayList_ProductList.add(new ProductList_Model(1,R.drawable.product_useravata_icon,"Áo trẻ em",100,100));
-        arrayList_ProductList.add(new ProductList_Model(1,R.drawable.product_useravata_icon,"Áo trẻ em",100,100));
-        arrayList_ProductList.add(new ProductList_Model(1,R.drawable.product_useravata_icon,"Áo trẻ em",100,100));
-
-        productListAdapter = new ProductList_Adapter(getContext(),arrayList_ProductList);
         recyclerView_productList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        sanPham_database = new SanPham_Database(requireContext());
+        sanPham_dao = new SanPham_Dao(sanPham_database,requireContext());
+        arrayList_ProductList = sanPham_dao.getSanPham();
+        productListAdapter = new ProductList_Adapter(getContext(),arrayList_ProductList);
         recyclerView_productList.setAdapter(productListAdapter);
         return view;
     }

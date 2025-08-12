@@ -40,9 +40,6 @@ public class WaitingForConfirmation_Fragment extends Fragment {
         recyclerView_choxacnhan = view.findViewById(R.id.recyclerView_choxacnhan);
         dao = new DonHang_Dao(getContext());
         trangThaiModelArrayList = dao.getDonHangChoXacNhan();
-//        trangThaiModelArrayList.add(new StatusOrder_Model( R.drawable.product_useravata_icon,  "Áo trẻ em", 100, "Cho xac nhan"));
-//        trangThaiModelArrayList.add(new StatusOrder_Model( R.drawable.product_useravata_icon,  "Áo trẻ em", 100, "Cho xac nhan"));
-//        trangThaiModelArrayList.add(new StatusOrder_Model( R.drawable.product_useravata_icon,  "Áo trẻ em", 100, "Cho xac nhan"));
 
         choXacNhanDonHangAdapter = new WaitingForConfirmation_Adapter(getContext(),trangThaiModelArrayList);
         recyclerView_choxacnhan.setLayoutManager(new LinearLayoutManager(getContext()));
