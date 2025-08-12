@@ -16,10 +16,26 @@ import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
 
 public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHolder> {
 
-    private ArrayList<DonHang_Model> list;
+    public interface OnItemClickListener {
+        void onItemClick(DonHang_Model donHang);
+    }
 
-    public DonHangAdapter(ArrayList<DonHang_Model> list) {
+    public interface OnEditStatusClickListener {
+        void onEditStatusClick(DonHang_Model donHang);
+    }
+
+    private ArrayList<DonHang_Model> list;
+    private OnItemClickListener listener;
+    private OnEditStatusClickListener editStatusListener;
+
+    public DonHangAdapter(ArrayList<DonHang_Model> list, OnItemClickListener listener) {
         this.list = list;
+        this.listener = listener;
+    }
+
+    // Setter cho listener sửa trạng thái
+    public void setOnEditStatusClickListener(OnEditStatusClickListener listener) {
+        this.editStatusListener = listener;
     }
 
     @NonNull
@@ -39,6 +55,24 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
         holder.tvQuantity.setText("SL: " + donHang.getQuantity());
         holder.tvStatus.setText(donHang.getStatus());
         holder.imgProduct.setImageResource(donHang.getImageresid());
+
+        // Thông tin người đặt
+        holder.tvFullName.setText("Họ tên: " + donHang.getFullName());
+        holder.tvPhone.setText("SĐT: " + donHang.getPhone());
+        holder.tvAddress.setText("Địa chỉ: " + donHang.getAddress());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(donHang);
+            }
+        });
+
+        // Xử lý click icon sửa trạng thái
+        holder.btnEditStatus.setOnClickListener(v -> {
+            if (editStatusListener != null) {
+                editStatusListener.onEditStatusClick(donHang);
+            }
+        });
     }
 
     @Override
@@ -46,9 +80,17 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
         return list.size();
     }
 
+    public void setData(ArrayList<DonHang_Model> newList) {
+        this.list.clear();
+        this.list.addAll(newList);
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct;
         TextView tvName, tvPrice, tvSize, tvQuantity, tvStatus;
+        TextView tvFullName, tvPhone, tvAddress;
+        ImageView btnEditStatus;  // Icon sửa trạng thái
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -58,6 +100,12 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.ViewHold
             tvSize = itemView.findViewById(R.id.tvSize);
             tvQuantity = itemView.findViewById(R.id.tvQuantity);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+
+            tvFullName = itemView.findViewById(R.id.tvFullName);
+            tvPhone = itemView.findViewById(R.id.tvPhone);
+            tvAddress = itemView.findViewById(R.id.tvAddress);
+
+            btnEditStatus = itemView.findViewById(R.id.btnEditStatus);
         }
     }
 }

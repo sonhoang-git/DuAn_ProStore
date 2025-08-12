@@ -31,9 +31,9 @@ public class Canceled_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_canceled_, container, false);
         recyclerView_dahuy = view.findViewById(R.id.recyclerView_dahuy);
         trangThaiModelArrayList = new ArrayList<>();
-        trangThaiModelArrayList.add(new DonHang_Model( 1,  R.drawable.product_useravata_icon, "Aó trẻ em","100", "M",2,"Đa huy"));
-        trangThaiModelArrayList.add(new DonHang_Model( 2,  R.drawable.product_useravata_icon,"Aó trẻ em", "100", "M",2, "Đa huy"));
-        trangThaiModelArrayList.add(new DonHang_Model( 3,  R.drawable.product_useravata_icon, "Aó trẻ em","100", "M",2, "Đa huy"));
+        trangThaiModelArrayList.add(new DonHang_Model( 1,  R.drawable.product_useravata_icon, "Aó trẻ em","100", "M",2,"Đa huy","Nguyễn Văn A","0123456789","Hà Nội"));
+        trangThaiModelArrayList.add(new DonHang_Model( 2,  R.drawable.product_useravata_icon,"Aó trẻ em", "100", "M",2, "Đa huy","Nguyễn Văn A","0123456789","Hà Nội"));
+        trangThaiModelArrayList.add(new DonHang_Model( 3,  R.drawable.product_useravata_icon, "Aó trẻ em","100", "M",2, "Đa huy","Nguyễn Văn A","0123456789","Hà Nội"));
 
         daHuyDonHangAdapter = new Canceled_Adapter(getContext(),trangThaiModelArrayList);
         recyclerView_dahuy.setLayoutManager(new LinearLayoutManager(getContext()));

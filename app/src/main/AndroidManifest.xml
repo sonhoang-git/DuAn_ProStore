@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DuAn_ProStore">
         <activity
+            android:name=".DienThongTinActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminActivity"
             android:exported="false" />
         <activity
@@ -44,23 +47,20 @@
         <activity
             android:name=".useractivity.Order_Activity"
             android:exported="false" />
-<activity android:name=".ProductDetailActivity"
-    android:exported="false"/>
-
-<activity android:name=".PaymentActivity"
-    android:exported="false"/>
-<activity android:name=".ProfileActivity"
-    android:exported="false"/>
-<activity android:name=".OrderDetailActivity"
-    android:exported="false"/>
         <activity
-            android:name=".CartActivity"
+            android:name=".ProductDetailActivity"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OrderDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CartActivity"
             android:exported="false" />
         <activity
             android:name=".WelcomeActivity"

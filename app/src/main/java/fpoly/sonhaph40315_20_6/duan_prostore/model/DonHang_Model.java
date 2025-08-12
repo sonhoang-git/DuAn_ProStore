@@ -1,6 +1,8 @@
 package fpoly.sonhaph40315_20_6.duan_prostore.model;
 
-public class DonHang_Model {
+import java.io.Serializable;
+
+public class DonHang_Model implements Serializable {
     private int id;
     private int imageresid;
     private String name;
@@ -8,8 +10,13 @@ public class DonHang_Model {
     private String size;
     private int quantity;
     private String status;
+    private String fullName;
+    private String phone;
+    private String address;
 
-    public DonHang_Model(int id, int imageresid, String name, String price, String size, int quantity, String status) {
+    public DonHang_Model(){}
+
+    public DonHang_Model(int id, int imageresid, String name, String price, String size, int quantity, String status, String fullName, String phone, String address) {
         this.id = id;
         this.imageresid = imageresid;
         this.name = name;
@@ -17,6 +24,9 @@ public class DonHang_Model {
         this.size = size;
         this.quantity = quantity;
         this.status = status;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.address = address;
     }
 
     public int getId() {
@@ -75,16 +85,27 @@ public class DonHang_Model {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "DonHang_Model{" +
-                "id=" + id +
-                ", imageresid=" + imageresid +
-                ", name='" + name + '\'' +
-                ", price='" + price + '\'' +
-                ", size='" + size + '\'' +
-                ", quantity=" + quantity +
-                ", status='" + status + '\'' +
-                '}';
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

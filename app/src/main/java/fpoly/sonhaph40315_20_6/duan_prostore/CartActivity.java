@@ -3,9 +3,8 @@ package fpoly.sonhaph40315_20_6.duan_prostore;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,19 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import fpoly.sonhaph40315_20_6.duan_prostore.Product;
-
 public class CartActivity extends AppCompatActivity {
 
     private RecyclerView rcvCart;
     private TextView tvTotal;
     private Button btnCheckout;
-    private ImageView btnBack;
+    private ImageButton btnBack;
 
     private List<Product> cartItems;
     private CartAdapter cartAdapter;
 
-    public static double total = 0; // để truyền sang ThanhToanActivity nếu cần
+    public static double total = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +38,10 @@ public class CartActivity extends AppCompatActivity {
         setupRecyclerView();
         updateTotal();
 
-//        btnCheckout.setOnClickListener(v -> {
-//            if (total > 0) {
-//                Intent intent = new Intent(CartActivity.this, ThanhToanActivity.class);
-//                intent.putExtra("TOTAL_AMOUNT", total);
-//                startActivity(intent);
-//            } else {
-//                Toast.makeText(this, "Giỏ hàng trống!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        btnCheckout.setOnClickListener(v -> {
+            Intent intent = new Intent(CartActivity.this, OrderDetailActivity.class);
+            startActivity(intent);
+        });
 
         btnBack.setOnClickListener(v -> finish());
     }

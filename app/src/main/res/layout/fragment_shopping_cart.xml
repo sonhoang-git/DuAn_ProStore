@@ -62,7 +62,7 @@
             android:id="@+id/btnCheckout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thanh toán"
+            android:text="Đặt hàng"
             android:textColor="#FFFFFF"
             android:backgroundTint="#D17842" />
     </LinearLayout>

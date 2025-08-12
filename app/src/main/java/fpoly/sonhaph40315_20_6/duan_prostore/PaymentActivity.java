@@ -14,6 +14,7 @@ import java.util.List;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.dao.DonHang_Dao;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.NguoiDung_Model;
 
 public class PaymentActivity extends AppCompatActivity {
 
@@ -24,6 +25,7 @@ public class PaymentActivity extends AppCompatActivity {
     private boolean isCreditCardSelected = true;
     private double totalAmount;
     private Product product; // Nhận sản phẩm từ OrderDetailActivity
+    private NguoiDung_Model nguoiDung; // Thông tin người dùng
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +47,12 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void receiveData() {
-        // Trường hợp 1: Nhận từ OrderDetailActivity
+        // Nhận dữ liệu từ Intent
         totalAmount = getIntent().getDoubleExtra("TOTAL_AMOUNT", 0);
         product = (Product) getIntent().getSerializableExtra("product");
+        nguoiDung = (NguoiDung_Model) getIntent().getSerializableExtra("nguoiDung");
 
-        // Nếu product null thì tính từ giỏ hàng
+        // Nếu product null thì tính tổng từ giỏ hàng
         if (product == null) {
             List<Product> cartItems = CartManager.getInstance().getCartItems();
             if (!cartItems.isEmpty()) {
@@ -93,16 +96,23 @@ public class PaymentActivity extends AppCompatActivity {
     private void processPayment() {
         DonHang_Dao donHangDao = new DonHang_Dao(this);
 
+        String fullName = nguoiDung != null ? nguoiDung.getFullname() : "";
+        String phone = nguoiDung != null ? nguoiDung.getPhone() : "";
+        String address = nguoiDung != null ? nguoiDung.getAddress() : "";
+
         if (product != null) {
             // Thanh toán 1 sản phẩm từ OrderDetailActivity
             DonHang_Model donHang = new DonHang_Model(
                     0,
                     product.getImageResId(),
                     product.getName(),
-                    String.format("%,.0f VND", product.getPrice()), // Đổi double -> String
+                    String.format("%,.0f VND", product.getPrice()),
                     product.getSize(),
                     product.getQuantity(),
-                    "Chờ xác nhận"
+                    "Chờ xác nhận",
+                    fullName,
+                    phone,
+                    address
             );
             donHangDao.add_DonHang(donHang);
 
@@ -121,20 +131,21 @@ public class PaymentActivity extends AppCompatActivity {
                         String.format("%,.0f VND", p.getPrice()),
                         p.getSize(),
                         p.getQuantity(),
-                        "Chờ xác nhận"
+                        "Chờ xác nhận",
+                        fullName,
+                        phone,
+                        address
                 );
                 donHangDao.add_DonHang(donHang);
             }
             CartManager.getInstance().clearCart();
         }
 
-        // Thông báo thanh toán thành công
         String message = isCreditCardSelected
                 ? "Thanh toán bằng thẻ tín dụng thành công!"
                 : "Thanh toán bằng ngân hàng thành công!";
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
-        // Quay về MainActivity
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

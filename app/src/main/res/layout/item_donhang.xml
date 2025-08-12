@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
         android:paddingStart="8dp">
@@ -44,12 +44,48 @@
             android:layout_height="wrap_content"
             android:text="Số lượng" />
 
-        <TextView
-            android:id="@+id/tvStatus"
+        <!-- Hàng ngang chứa trạng thái và icon sửa -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trạng thái"
-            android:textColor="@android:color/holo_red_dark" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trạng thái"
+                android:textColor="@android:color/holo_red_dark" />
+
+            <ImageView
+                android:id="@+id/btnEditStatus"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:src="@android:drawable/ic_menu_edit"
+                android:contentDescription="Sửa trạng thái" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên người đặt" />
+
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SĐT người đặt" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Địa chỉ người đặt" />
+
     </LinearLayout>
 
 </LinearLayout>
