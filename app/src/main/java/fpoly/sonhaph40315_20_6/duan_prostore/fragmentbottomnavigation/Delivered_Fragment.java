@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.adapter.Delivered_Adapter;
 import fpoly.sonhaph40315_20_6.duan_prostore.adapter.WaitingForConfirmation_Adapter;
+import fpoly.sonhaph40315_20_6.duan_prostore.dao.DonHang_Dao;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.StatusOrder_Model;
 
 
@@ -26,21 +28,30 @@ public class Delivered_Fragment extends Fragment {
     private RecyclerView recyclerView_dagiao;
 
     private Delivered_Adapter daGiaoDonHangAdapter;
-    private ArrayList<StatusOrder_Model> trangThaiModelArrayList;
+    private ArrayList<DonHang_Model> trangThaiModelArrayList;
+    private DonHang_Dao dao;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_delivered, container, false);
         recyclerView_dagiao = view.findViewById(R.id.recyclerView_dagiao);
-        trangThaiModelArrayList = new ArrayList<>();
-        trangThaiModelArrayList.add(new StatusOrder_Model( R.drawable.product_useravata_icon,  "Áo trẻ em", 100, "Đã giao"));
-        trangThaiModelArrayList.add(new StatusOrder_Model( R.drawable.product_useravata_icon,  "Áo trẻ em", 100, "Đã giao"));
-        trangThaiModelArrayList.add(new StatusOrder_Model( R.drawable.product_useravata_icon,  "Áo trẻ em", 100, "Đã giao"));
-
-        daGiaoDonHangAdapter = new Delivered_Adapter(getContext(),trangThaiModelArrayList);
         recyclerView_dagiao.setLayoutManager(new LinearLayoutManager(getContext()));
+        dao = new DonHang_Dao(getContext());
+        trangThaiModelArrayList = dao.getDonHangByStatus("Đã giao");
+        if (trangThaiModelArrayList == null) trangThaiModelArrayList = new ArrayList<>();
+        daGiaoDonHangAdapter = new Delivered_Adapter(getContext(),trangThaiModelArrayList);
         recyclerView_dagiao.setAdapter(daGiaoDonHangAdapter);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (dao == null) dao = new DonHang_Dao(getContext());
+        ArrayList<DonHang_Model> fresh = dao.getDonHangByStatus("Đã giao");
+        trangThaiModelArrayList.clear();
+        if (fresh != null) trangThaiModelArrayList.addAll(fresh);
+        if (daGiaoDonHangAdapter != null) daGiaoDonHangAdapter.notifyDataSetChanged();
     }
 }

@@ -30,11 +30,6 @@ public class OderStatus_Activity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_oder_status);
         btn_back = findViewById(R.id.btn_back);
-//        toolbar_donmua = findViewById(R.id.toolbar_donmua);
-//
-//        toolbar_donmua.setTitle("Đơn hàng");
-//        setSupportActionBar(toolbar_donmua);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,5 +44,12 @@ public class OderStatus_Activity extends AppCompatActivity {
         new TabLayoutMediator(tablayout_donmua, viewpager,
                 (tab, position) ->
                         tab.setText(title_donmua[position])).attach();
+
+        // mới thêm
+        int tabIndex = getIntent().getIntExtra("tabIndex", -1);
+        if (tabIndex >= 0 && tabIndex < viewpageradapter.getItemCount()) {
+            viewpager.setCurrentItem(tabIndex, false);
+        }
     }
+
 }

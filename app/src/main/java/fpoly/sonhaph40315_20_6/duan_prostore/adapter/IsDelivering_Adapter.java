@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
@@ -45,8 +47,27 @@ public class IsDelivering_Adapter extends RecyclerView.Adapter<IsDelivering_Adap
                 .load(item.getImageresid())  // nếu là resource ID: int, Glide vẫn hỗ trợ
                 .into(holder.img_layout_item_danggiao_avata);
         holder.txt_layout_item_danggiao_aotreem.setText(item.getName());
+       // holder.txt_layout_item_danggiao_trangthai.setText(item.getStatus());
         holder.txt_layout_item_danggiao_trangthai.setText(item.getStatus());
-        holder.txt_layout_item_danggiao_giatien.setText(item.getPrice()+ "K");
+        // có thể đổi màu theo status (ví dụ)
+        if (item.getStatus() != null && item.getStatus().contains("Đang giao")) {
+            holder.txt_layout_item_danggiao_trangthai.setTextColor(holder.itemView.getResources().getColor(android.R.color.holo_blue_dark));
+        } else {
+            holder.txt_layout_item_danggiao_trangthai.setTextColor(holder.itemView.getResources().getColor(android.R.color.black));
+        }
+       // holder.txt_layout_item_danggiao_giatien.setText(item.getPrice()+ "K");
+
+        try {
+            int price = Integer.parseInt(item.getPrice()
+                    .replace(",", "")
+                    .replace("K", "")
+                    .trim());
+            int tongTien = price * item.getQuantity();
+            NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+            holder.txt_layout_item_danggiao_giatien.setText(formatter.format(tongTien));
+        } catch (Exception e) {
+            holder.txt_layout_item_danggiao_giatien.setText(item.getPrice());
+        }
         holder.txt_layout_item_danggiao_soluong.setText(String.valueOf(item.getQuantity()));
         holder.txt_layout_item_danggiao_xemthongtin.setOnClickListener(item1 ->{
             Intent intent = new Intent(context, OrderInformation_Activity.class);
@@ -56,6 +77,8 @@ public class IsDelivering_Adapter extends RecyclerView.Adapter<IsDelivering_Adap
             intent.putExtra("soluong", item.getQuantity());
             context.startActivity(intent);
         });
+
+
     }
 
 

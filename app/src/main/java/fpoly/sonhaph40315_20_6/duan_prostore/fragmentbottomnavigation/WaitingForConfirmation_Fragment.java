@@ -48,4 +48,16 @@ public class WaitingForConfirmation_Fragment extends Fragment {
 
         return view;
     }
+
+    // mới thêm
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Reload dữ liệu mỗi khi fragment xuất hiện trở lại
+        if (dao == null) dao = new DonHang_Dao(getContext());
+        ArrayList<DonHang_Model> fresh = dao.getDonHangChoXacNhan();
+        trangThaiModelArrayList.clear();
+        trangThaiModelArrayList.addAll(fresh);
+        if (choXacNhanDonHangAdapter != null) choXacNhanDonHangAdapter.notifyDataSetChanged();
+    }
 }

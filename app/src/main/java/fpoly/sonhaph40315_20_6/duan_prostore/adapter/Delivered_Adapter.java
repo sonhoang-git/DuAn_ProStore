@@ -13,9 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.StatusOrder_Model;
 import fpoly.sonhaph40315_20_6.duan_prostore.useractivity.OrderInformation_Activity;
 import fpoly.sonhaph40315_20_6.duan_prostore.useractivity.ProductReview_Activity;
@@ -26,9 +29,9 @@ public class Delivered_Adapter extends RecyclerView.Adapter<Delivered_Adapter.Vi
 
     private final Context context;
 
-    private final ArrayList<StatusOrder_Model> trangThaiModelArrayList;
+    private final ArrayList<DonHang_Model> trangThaiModelArrayList;
 
-    public Delivered_Adapter(Context context, ArrayList<StatusOrder_Model> trangThaiModelArrayList) {
+    public Delivered_Adapter(Context context, ArrayList<DonHang_Model> trangThaiModelArrayList) {
         this.context = context;
         this.trangThaiModelArrayList = trangThaiModelArrayList;
     }
@@ -43,13 +46,34 @@ public class Delivered_Adapter extends RecyclerView.Adapter<Delivered_Adapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull Delivered_Adapter.ViewHolder holder, int position) {
-        StatusOrder_Model item = trangThaiModelArrayList.get(position);
+        DonHang_Model item = trangThaiModelArrayList.get(position);
         Glide.with(context)
-                .load(item.getAvata())  // nếu là resource ID: int, Glide vẫn hỗ trợ
+                .load(item.getImageresid())  // nếu là resource ID: int, Glide vẫn hỗ trợ
                 .into(holder.img_layout_item_dagiao_avata);
         holder.txt_layout_item_dagiao_aotreem.setText(item.getName());
-        holder.txt_layout_item_dagiao_trangthai.setText(item.getTrangthai());
-        holder.txt_layout_item_dagiao_giatien.setText(String.valueOf(item.getGia()+ "K"));
+        try {
+            int price = Integer.parseInt(item.getPrice()
+                    .replace(",", "")
+                    .replace("K", "")
+                    .trim());
+            int tongTien = price * item.getQuantity();
+            NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+            holder.txt_layout_item_dagiao_giatien.setText(formatter.format(tongTien));
+        } catch (Exception e) {
+            holder.txt_layout_item_dagiao_giatien.setText(item.getPrice());
+        }
+
+
+        holder.txt_layout_item_dagiao_trangthai.setText(item.getStatus());
+        // có thể đổi màu theo status (ví dụ)
+
+
+        if (item.getStatus() != null && item.getStatus().contains("Đang giao")) {
+            holder.txt_layout_item_dagiao_trangthai.setTextColor(holder.itemView.getResources().getColor(android.R.color.holo_blue_dark));
+        } else {
+            holder.txt_layout_item_dagiao_trangthai.setTextColor(holder.itemView.getResources().getColor(android.R.color.black));
+        }
+
 
         holder.txt_layout_item_dagiao_mualai.setOnClickListener(item1 -> {
 

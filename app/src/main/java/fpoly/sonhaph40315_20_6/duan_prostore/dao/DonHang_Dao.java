@@ -44,7 +44,9 @@ public class DonHang_Dao {
                 int id = cursor.getInt(0);
                 int imageresid = cursor.getInt(1);
                 String name = cursor.getString(2);
-                String price = cursor.getString(3);
+               String price = cursor.getString(3);
+
+               // int price = cursor.getInt(3);
                 String size = cursor.getString(4);
                 int quantity = cursor.getInt(5);
                 String status = cursor.getString(6);
@@ -83,6 +85,8 @@ public class DonHang_Dao {
         return list;
     }
 
+    //
+
     // Cập nhật trạng thái đơn hàng
     public int updateStatus(int id, String newStatus) {
         ContentValues values = new ContentValues();
@@ -103,6 +107,7 @@ public class DonHang_Dao {
     public ArrayList<DonHang_Model> getDonHangChoXacNhan() {
         return getDonHangByStatus("Chờ xác nhận");
     }
+
     public ArrayList<ThongKe_Model> getSoldProducts() {
         ArrayList<ThongKe_Model> result = new ArrayList<>();
         // Truy vấn nhóm theo name sản phẩm, tổng số lượng và doanh thu

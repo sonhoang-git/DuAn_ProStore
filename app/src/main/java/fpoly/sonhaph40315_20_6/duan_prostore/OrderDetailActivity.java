@@ -17,6 +17,8 @@ import java.util.Locale;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.dao.DonHang_Dao;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
+import fpoly.sonhaph40315_20_6.duan_prostore.model.StatusOrder_Model;
+import fpoly.sonhaph40315_20_6.duan_prostore.useractivity.OderStatus_Activity;
 
 public class OrderDetailActivity extends AppCompatActivity {
 
@@ -66,7 +68,10 @@ public class OrderDetailActivity extends AppCompatActivity {
                 StringBuilder sb = new StringBuilder();
                 for (Product p : cartItems) {
                     int qty = 1;
-                    try { qty = p.getQuantity(); } catch (Exception ignored) {}
+                    try {
+                        qty = p.getQuantity();
+                    } catch (Exception ignored) {
+                    }
                     sb.append(p.getName())
                             .append(" x").append(qty)
                             .append(" - ").append(NumberFormat.getNumberInstance(Locale.US).format(p.getPrice())).append(" VND\n");
@@ -95,6 +100,60 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         btnBack.setOnClickListener(v -> finish());
 
+//        btnThanhToan.setOnClickListener(v -> {
+//            if (cartItems.isEmpty()) {
+//                Toast.makeText(this, "Không có sản phẩm để thanh toán", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            DonHang_Dao donHangDao = new DonHang_Dao(OrderDetailActivity.this);
+//            boolean anySaved = false;
+//
+//            // Xác định trạng thái thanh toán dựa vào paymentMethod
+//            String trangThaiThanhToan = (paymentMethod != null && !paymentMethod.isEmpty()) ? "Đã thanh toán" : "Chưa thanh toán";
+//
+//            for (Product p : cartItems) {
+//                DonHang_Model dh = new DonHang_Model(
+//                        0,
+//                        p.getImageResId(),
+//                        p.getName(),
+//                        String.format("%,.0f VND", p.getPrice()),
+//                        p.getSize(),
+//                        p.getQuantity(),
+//                        trangThaiThanhToan,  // Gán trạng thái thanh toán vào đây
+//                        donHangThongTin != null ? donHangThongTin.getFullName() : "",
+//                        donHangThongTin != null ? donHangThongTin.getPhone() : "",
+//                        donHangThongTin != null ? donHangThongTin.getAddress() : ""
+//                );
+//                donHangDao.add_DonHang(dh);
+//                anySaved = true;
+//            }
+//
+//            if (anySaved) {
+//                Toast.makeText(this, "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
+//                intent.putExtra("openFragment", "DonHangFragment");
+//                startActivity(intent);
+//                finish();
+//            } else {
+//                Toast.makeText(this, "Lưu đơn hàng thất bại", Toast.LENGTH_SHORT).show();
+//            }
+//
+//
+//
+//
+//        if (anySaved) {
+//                Toast.makeText(this, "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
+//                intent.putExtra("openFragment", "DonHangFragment");
+//                startActivity(intent);
+//                finish();
+//            } else {
+//                Toast.makeText(this, "Lưu đơn hàng thất bại", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+
         btnThanhToan.setOnClickListener(v -> {
             if (cartItems.isEmpty()) {
                 Toast.makeText(this, "Không có sản phẩm để thanh toán", Toast.LENGTH_SHORT).show();
@@ -104,10 +163,11 @@ public class OrderDetailActivity extends AppCompatActivity {
             DonHang_Dao donHangDao = new DonHang_Dao(OrderDetailActivity.this);
             boolean anySaved = false;
 
-            // Xác định trạng thái thanh toán dựa vào paymentMethod
-            String trangThaiThanhToan = (paymentMethod != null && !paymentMethod.isEmpty()) ? "Đã thanh toán" : "Chưa thanh toán";
+            // === QUAN TRỌNG: Lưu trạng thái đơn hàng là "Chờ xác nhận" để fragment hiển thị đúng ===
+            String trangThaiDonHang = "Chờ xác nhận";
 
             for (Product p : cartItems) {
+                // Lưu vào bảng DonHang (bảng chung admin/user trong project bạn)
                 DonHang_Model dh = new DonHang_Model(
                         0,
                         p.getImageResId(),
@@ -115,33 +175,29 @@ public class OrderDetailActivity extends AppCompatActivity {
                         String.format("%,.0f VND", p.getPrice()),
                         p.getSize(),
                         p.getQuantity(),
-                        trangThaiThanhToan,  // Gán trạng thái thanh toán vào đây
+                        trangThaiDonHang,  // LƯU "Chờ xác nhận"
                         donHangThongTin != null ? donHangThongTin.getFullName() : "",
                         donHangThongTin != null ? donHangThongTin.getPhone() : "",
                         donHangThongTin != null ? donHangThongTin.getAddress() : ""
                 );
-                donHangDao.add_DonHang(dh);
-                anySaved = true;
+                long inserted = donHangDao.add_DonHang(dh);
+                if (inserted > 0) anySaved = true;
             }
 
             if (anySaved) {
                 Toast.makeText(this, "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
-                intent.putExtra("openFragment", "DonHangFragment");
+
+                // Mở màn hiển thị trạng thái đơn và bật tab "Chờ xác nhận" (tabIndex = 0)
+                Intent intent = new Intent(OrderDetailActivity.this, OderStatus_Activity.class);
+                intent.putExtra("tabIndex", 0);
                 startActivity(intent);
-                finish();
-            } else {
-                Toast.makeText(this, "Lưu đơn hàng thất bại", Toast.LENGTH_SHORT).show();
-            }
 
+                // Nếu bạn muốn quay về MainActivity và mở fragment DonHangFragment thay vì OderStatus_Activity,
+                // đổi đoạn trên thành: (để ý MainActivity phải xử lý extra "openFragment")
+                // Intent mainIntent = new Intent(OrderDetailActivity.this, MainActivity.class);
+                // mainIntent.putExtra("openFragment", "DonHangFragment");
+                // startActivity(mainIntent);
 
-
-
-        if (anySaved) {
-                Toast.makeText(this, "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
-                intent.putExtra("openFragment", "DonHangFragment");
-                startActivity(intent);
                 finish();
             } else {
                 Toast.makeText(this, "Lưu đơn hàng thất bại", Toast.LENGTH_SHORT).show();
@@ -149,11 +205,15 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
     }
 
+
     private double calcTotal(ArrayList<Product> list) {
         double s = 0;
         for (Product p : list) {
             int qty = 1;
-            try { qty = p.getQuantity(); } catch (Exception ignored) {}
+            try {
+                qty = p.getQuantity();
+            } catch (Exception ignored) {
+            }
             s += p.getPrice() * qty;
         }
         return s;

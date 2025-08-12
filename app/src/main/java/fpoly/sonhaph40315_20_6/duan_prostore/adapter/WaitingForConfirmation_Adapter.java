@@ -42,25 +42,24 @@ public class WaitingForConfirmation_Adapter extends RecyclerView.Adapter<Waiting
         DonHang_Model item = trangThaiModelArrayList.get(position);
         holder.img_layout_item_choxacnhan_avata.setImageResource(item.getImageresid());
         holder.txt_layout_item_choxacnhan_aotreem.setText(item.getName());
-        holder.txt_layout_item_choxacnhan_trangthai.setText(item.getStatus());
-
         try {
             int price = Integer.parseInt(item.getPrice()
                     .replace(",", "")
-                    .replace(" VND", "")
                     .replace("K", "")
                     .trim());
-
             int tongTien = price * item.getQuantity();
-
             NumberFormat formatter = NumberFormat.getInstance(Locale.US);
-            String formattedPrice = formatter.format(tongTien);
-
-            holder.txt_layout_item_choxacnhan_giatien.setText(formattedPrice);
-        } catch (NumberFormatException e) {
-            holder.txt_layout_item_choxacnhan_giatien.setText("0");
+            holder.txt_layout_item_choxacnhan_giatien.setText(formatter.format(tongTien));
+        } catch (Exception e) {
+            holder.txt_layout_item_choxacnhan_giatien.setText(item.getPrice());
         }
         holder.txt_layout_item_choxacnhan_soluong.setText(String.valueOf("Số lương : "+item.getQuantity()));
+
+        if (item.getStatus() != null && item.getStatus().contains("Đang giao")) {
+            holder.txt_layout_item_choxacnhan_trangthai.setTextColor(holder.itemView.getResources().getColor(android.R.color.holo_blue_dark));
+        } else {
+            holder.txt_layout_item_choxacnhan_trangthai.setTextColor(holder.itemView.getResources().getColor(android.R.color.black));
+        }
     }
 
 

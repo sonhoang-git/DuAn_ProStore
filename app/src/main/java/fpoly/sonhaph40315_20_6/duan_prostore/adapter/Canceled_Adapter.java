@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
@@ -45,8 +47,24 @@ public class Canceled_Adapter extends RecyclerView.Adapter<Canceled_Adapter.View
                 .load(item.getImageresid())  // nếu là resource ID: int, Glide vẫn hỗ trợ
                 .into(holder.img_layout_item_dahuy_avata);
         holder.txt_layout_item_dahuy_aotreem.setText(item.getName());
-        holder.txt_layout_item_dahuy_giatien.setText(String.valueOf(item.getPrice()+ "K"));
-        holder.txt_layout_item_dahuy_trangthai.setText(item.getStatus());
+        try {
+            int price = Integer.parseInt(item.getPrice()
+                    .replace(",", "")
+                    .replace("K", "")
+                    .trim());
+            int tongTien = price * item.getQuantity();
+            NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+            holder.txt_layout_item_dahuy_giatien.setText(formatter.format(tongTien));
+        } catch (Exception e) {
+            holder.txt_layout_item_dahuy_giatien.setText(item.getPrice());
+        }
+
+        if (item.getStatus() != null && item.getStatus().contains("Đang giao")) {
+            holder.txt_layout_item_dahuy_trangthai.setTextColor(holder.itemView.getResources().getColor(android.R.color.holo_blue_dark));
+        } else {
+            holder.txt_layout_item_dahuy_trangthai.setTextColor(holder.itemView.getResources().getColor(android.R.color.black));
+        }
+
         holder.txt_layout_item_dahuy_mualai.setOnClickListener(item1 -> {
 
         });
