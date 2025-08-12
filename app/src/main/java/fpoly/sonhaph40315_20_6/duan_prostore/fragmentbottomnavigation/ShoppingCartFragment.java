@@ -14,15 +14,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fpoly.sonhaph40315_20_6.duan_prostore.CartAdapter;
 import fpoly.sonhaph40315_20_6.duan_prostore.CartManager;
+import fpoly.sonhaph40315_20_6.duan_prostore.DienThongTinActivity;
 import fpoly.sonhaph40315_20_6.duan_prostore.MainActivity;
-import fpoly.sonhaph40315_20_6.duan_prostore.PaymentActivity;
-import fpoly.sonhaph40315_20_6.duan_prostore.R;
-//import fpoly.sonhaph40315_20_6.duan_prostore.ThanhToanActivity;
 import fpoly.sonhaph40315_20_6.duan_prostore.Product;
+import fpoly.sonhaph40315_20_6.duan_prostore.R;
 
 public class ShoppingCartFragment extends Fragment implements CartAdapter.OnCartChangedListener {
 
@@ -46,15 +46,21 @@ public class ShoppingCartFragment extends Fragment implements CartAdapter.OnCart
         setupRecyclerView();
         updateTotal();
 
-//        btnCheckout.setOnClickListener(v -> {
-//            if (total > 0) {
-//                Intent intent = new Intent(getContext(), ThanhToanActivity.class);
-//                intent.putExtra("TOTAL_AMOUNT", total);
-//                startActivity(intent);
-//            } else {
-//                Toast.makeText(getContext(), "Giỏ hàng trống!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        btnCheckout.setOnClickListener(v -> {
+            if (total > 0) {
+                // Lấy danh sách sản phẩm hiện tại từ CartManager
+                List<Product> cartItems = CartManager.getInstance().getCartItems();
+                // Chuyển sang ArrayList để putExtra
+                ArrayList<Product> cartArray = new ArrayList<>(cartItems);
+
+                Intent intent = new Intent(getContext(), DienThongTinActivity.class);
+                intent.putExtra("TOTAL_AMOUNT", total);
+                intent.putExtra("CART_ITEMS", cartArray); // truyền toàn bộ giỏ hàng
+                startActivity(intent);
+            } else {
+                Toast.makeText(getContext(), "Giỏ hàng trống!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnBack.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), MainActivity.class);
@@ -74,7 +80,7 @@ public class ShoppingCartFragment extends Fragment implements CartAdapter.OnCart
     private void updateTotal() {
         total = 0;
         for (Product item : CartManager.getInstance().getCartItems()) {
-            total += item.getPrice() * item.getQuantity(); // ✅ Dùng getPrice() đúng với model SanPham
+            total += item.getPrice() * item.getQuantity();
         }
         tvTotal.setText(String.format("%,.0f VND", total));
     }
@@ -82,6 +88,5 @@ public class ShoppingCartFragment extends Fragment implements CartAdapter.OnCart
     @Override
     public void onCartUpdated() {
         updateTotal();
-        // Nếu muốn: kiểm tra cart rỗng thì ẩn nút thanh toán hoặc về màn hình khác
     }
 }

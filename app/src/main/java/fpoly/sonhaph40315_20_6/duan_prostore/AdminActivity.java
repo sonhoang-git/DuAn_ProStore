@@ -55,8 +55,6 @@ public class AdminActivity extends AppCompatActivity {
                 selectedFragment = new QuanLyTaiKhoanFragment();
             } else if (id == R.id.nav_orders) {
                 selectedFragment = new DonHangFragment();
-            } else if (id == R.id.nav_order) {
-                selectedFragment = new DonHangChiTietFragment();
             } else if (id == R.id.nav_dashboard) {
                 selectedFragment = new ThongKeFragment();
             } else if (id == R.id.nav_evaluate) {
@@ -84,7 +82,7 @@ public class AdminActivity extends AppCompatActivity {
         // Hiển thị mặc định một Fragment (nếu cần)
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new ThongKeFragment())
+                    .replace(R.id.fragment_container, new AdminFragment())
                     .commit();
         }
     }

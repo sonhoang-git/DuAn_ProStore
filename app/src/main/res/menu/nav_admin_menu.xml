@@ -13,10 +13,6 @@
         android:title="Đơn hàng"
         android:icon="@drawable/ic_order"/>
     <item
-        android:id="@+id/nav_order"
-        android:title="Đơn hàng chi tiết"
-        android:icon="@drawable/ic_order"/>
-    <item
         android:id="@+id/nav_dashboard"
         android:title="Thống kê "
         android:icon="@drawable/ic_dashboard"/>

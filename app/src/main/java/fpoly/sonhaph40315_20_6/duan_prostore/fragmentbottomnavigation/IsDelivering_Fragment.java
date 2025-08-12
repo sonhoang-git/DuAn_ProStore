@@ -33,9 +33,9 @@ public class IsDelivering_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_inde_divery_, container, false);
         recyclerView_danggiao = view.findViewById(R.id.recyclerView_danggiao);
         trangThaiModelArrayList = new ArrayList<>();
-        trangThaiModelArrayList.add(new DonHang_Model( 1,  R.drawable.product_useravata_icon, "Aó trẻ em","100", "M",2,"Đang giao"));
-        trangThaiModelArrayList.add(new DonHang_Model( 2,  R.drawable.product_useravata_icon,"Aó trẻ em", "100", "M",2, "Đang giao"));
-        trangThaiModelArrayList.add(new DonHang_Model( 3,  R.drawable.product_useravata_icon, "Aó trẻ em","100", "M",2, "Đang giao"));
+        trangThaiModelArrayList.add(new DonHang_Model( 1,  R.drawable.product_useravata_icon, "Aó trẻ em","100", "M",2,"Đang giao","Nguyễn Văn A","0123456789","Hà Nội"));
+        trangThaiModelArrayList.add(new DonHang_Model( 2,  R.drawable.product_useravata_icon,"Aó trẻ em", "100", "M",2, "Đang giao","Nguyễn Văn A","0123456789","Hà Nội"));
+        trangThaiModelArrayList.add(new DonHang_Model( 3,  R.drawable.product_useravata_icon, "Aó trẻ em","100", "M",2, "Đang giao","Nguyễn Văn A","0123456789","Hà Nội"));
 
         dangGiaoDonHangAdapter = new IsDelivering_Adapter(getContext(),trangThaiModelArrayList);
         recyclerView_danggiao.setLayoutManager(new LinearLayoutManager(getContext()));
