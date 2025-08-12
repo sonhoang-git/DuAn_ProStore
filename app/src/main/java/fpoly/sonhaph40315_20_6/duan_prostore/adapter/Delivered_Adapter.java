@@ -80,6 +80,13 @@ public class Delivered_Adapter extends RecyclerView.Adapter<Delivered_Adapter.Vi
         });
         holder.txt_layout_item_dagiao_danhgia.setOnClickListener(item1 -> {
             Intent intent = new Intent(context, ProductReview_Activity.class);
+            intent.putExtra("productName", item.getName());
+            intent.putExtra("userName", item.getFullName()); // nếu model có fullName
+            intent.putExtra("address", item.getAddress());
+
+            intent.putExtra("price", item.getPrice());
+            intent.putExtra("imageresid", item.getImageresid());
+            intent.putExtra("orderId", item.getId());
             context.startActivity(intent);
         });
     }

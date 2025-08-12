@@ -4,7 +4,6 @@ public class DanhGia_Model {
     private int id;
     private String address;
     private String avata;
-
     private String namesanpham;
     private String userName;
     private int rating;
@@ -23,7 +22,6 @@ public class DanhGia_Model {
         this.price = price;
     }
 
-
     public int getId() {
         return id;
     }
@@ -39,6 +37,7 @@ public class DanhGia_Model {
     public void setAddress(String address) {
         this.address = address;
     }
+
     public String getAvata() {
         return avata;
     }
@@ -92,6 +91,7 @@ public class DanhGia_Model {
         return "DanhGia_Model{" +
                 "id=" + id +
                 ", address='" + address + '\'' +
+                ", avata='" + avata + '\'' +
                 ", namesanpham='" + namesanpham + '\'' +
                 ", userName='" + userName + '\'' +
                 ", rating=" + rating +

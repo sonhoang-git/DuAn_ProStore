@@ -17,11 +17,13 @@ public class DanhGia_Database extends SQLiteOpenHelper {
         String createTable = "CREATE TABLE DanhGia (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "address TEXT," +
+                "avata TEXT," +
                 "namesanpham TEXT," +
-                "userName INTEGER," +
-                "rating TEXT," +
+                "username TEXT," +
+                "rating INTEGER," +
                 "noidung TEXT,"+
-                "price INTEGER)";
+                "price INTEGER" +
+                ")";
         db.execSQL(createTable);
     }
 

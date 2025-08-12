@@ -100,60 +100,6 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         btnBack.setOnClickListener(v -> finish());
 
-//        btnThanhToan.setOnClickListener(v -> {
-//            if (cartItems.isEmpty()) {
-//                Toast.makeText(this, "Không có sản phẩm để thanh toán", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//
-//            DonHang_Dao donHangDao = new DonHang_Dao(OrderDetailActivity.this);
-//            boolean anySaved = false;
-//
-//            // Xác định trạng thái thanh toán dựa vào paymentMethod
-//            String trangThaiThanhToan = (paymentMethod != null && !paymentMethod.isEmpty()) ? "Đã thanh toán" : "Chưa thanh toán";
-//
-//            for (Product p : cartItems) {
-//                DonHang_Model dh = new DonHang_Model(
-//                        0,
-//                        p.getImageResId(),
-//                        p.getName(),
-//                        String.format("%,.0f VND", p.getPrice()),
-//                        p.getSize(),
-//                        p.getQuantity(),
-//                        trangThaiThanhToan,  // Gán trạng thái thanh toán vào đây
-//                        donHangThongTin != null ? donHangThongTin.getFullName() : "",
-//                        donHangThongTin != null ? donHangThongTin.getPhone() : "",
-//                        donHangThongTin != null ? donHangThongTin.getAddress() : ""
-//                );
-//                donHangDao.add_DonHang(dh);
-//                anySaved = true;
-//            }
-//
-//            if (anySaved) {
-//                Toast.makeText(this, "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
-//                intent.putExtra("openFragment", "DonHangFragment");
-//                startActivity(intent);
-//                finish();
-//            } else {
-//                Toast.makeText(this, "Lưu đơn hàng thất bại", Toast.LENGTH_SHORT).show();
-//            }
-//
-//
-//
-//
-//        if (anySaved) {
-//                Toast.makeText(this, "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
-//                intent.putExtra("openFragment", "DonHangFragment");
-//                startActivity(intent);
-//                finish();
-//            } else {
-//                Toast.makeText(this, "Lưu đơn hàng thất bại", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-
         btnThanhToan.setOnClickListener(v -> {
             if (cartItems.isEmpty()) {
                 Toast.makeText(this, "Không có sản phẩm để thanh toán", Toast.LENGTH_SHORT).show();

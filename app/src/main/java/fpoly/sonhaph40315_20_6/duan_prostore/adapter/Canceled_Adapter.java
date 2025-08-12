@@ -17,6 +17,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import fpoly.sonhaph40315_20_6.duan_prostore.ProductDetailActivity;
 import fpoly.sonhaph40315_20_6.duan_prostore.R;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.DonHang_Model;
 import fpoly.sonhaph40315_20_6.duan_prostore.model.NguoiDung_Model;
@@ -66,13 +67,23 @@ public class Canceled_Adapter extends RecyclerView.Adapter<Canceled_Adapter.View
         }
 
         holder.txt_layout_item_dahuy_mualai.setOnClickListener(item1 -> {
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra("productName", item.getName());
+            intent.putExtra("price", item.getPrice());
+            intent.putExtra("imageresid", item.getImageresid());
+            intent.putExtra("productId", item.getId()); // nếu có ID sản phẩm để truy DB
+            context.startActivity(intent);
 
         });
         holder.txt_layout_item_dahuy_danhgia.setOnClickListener(item1 -> {
             Intent intent = new Intent(context, ProductReview_Activity.class);
-            intent.putExtra("avata", item.getImageresid());
-            intent.putExtra("namesanpham", item.getName());
+            intent.putExtra("productName", item.getName());
+            intent.putExtra("userName", item.getFullName()); // nếu model có fullName
+            intent.putExtra("address", item.getAddress());
+
             intent.putExtra("price", item.getPrice());
+            intent.putExtra("imageresid", item.getImageresid());
+            intent.putExtra("orderId", item.getId());
             context.startActivity(intent);
         });
     }

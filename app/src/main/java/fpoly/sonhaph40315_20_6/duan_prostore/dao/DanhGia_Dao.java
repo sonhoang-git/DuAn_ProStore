@@ -31,7 +31,7 @@ public class DanhGia_Dao {
     }
     public ArrayList<DanhGia_Model> getAllDanhGia() {
         ArrayList<DanhGia_Model> list = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT * FROM DanhGia", null);
+        Cursor cursor = db.rawQuery("SELECT id, address, avata, namesanpham, username, rating, noidung, price FROM DanhGia ORDER BY id DESC", null);
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(0);
@@ -45,6 +45,32 @@ public class DanhGia_Dao {
 
                 DanhGia_Model dg = new DanhGia_Model(id, address, avata, nameSP, user, rating, noidung, price);
                 list.add(dg);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public ArrayList<DanhGia_Model> getDanhGiaByStars(int stars) {
+        ArrayList<DanhGia_Model> list = new ArrayList<>();
+        Cursor cursor;
+        if (stars <= 0) {
+            cursor = db.rawQuery("SELECT id, address, avata, namesanpham, username, rating, noidung, price FROM DanhGia ORDER BY id DESC", null);
+        } else {
+            cursor = db.rawQuery("SELECT id, address, avata, namesanpham, username, rating, noidung, price FROM DanhGia WHERE rating = ? ORDER BY id DESC", new String[]{String.valueOf(stars)});
+        }
+        if (cursor.moveToFirst()) {
+            do {
+                list.add(new DanhGia_Model(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getInt(5),
+                        cursor.getString(6),
+                        cursor.getInt(7)
+                ));
             } while (cursor.moveToNext());
         }
         cursor.close();

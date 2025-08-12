@@ -75,7 +75,7 @@
             android:padding="8dp">
 
             <ImageView
-                android:id="@+id/img_layout_item_choxacnhan_avata"
+                android:id="@+id/img_danhgia_avata"
                 android:layout_width="150dp"
                 android:layout_height="148dp"
                 android:scaleType="center"

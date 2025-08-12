@@ -1,11 +1,13 @@
 package fpoly.sonhaph40315_20_6.duan_prostore.useractivity;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,10 +27,18 @@ public class ProductReview_Activity extends AppCompatActivity {
     private EditText edtReview;
     private Button btnSubmit;
     private ImageView[] stars;
+    private ImageView img_danhgia_avata;
+
+    private TextView txt_danhgia_namesanpham,txt_danhgia_price,txt_danhgia_nameuser,txt_danhgia_diachi;
+
     private int selectedRating = 0;
 
     private int colorYellow;
     private int colorGray;
+
+    private String productName, userName, address,price;
+    private int imageresid, orderId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +49,11 @@ public class ProductReview_Activity extends AppCompatActivity {
         btnBack = findViewById(R.id.btn_back);
         edtReview = findViewById(R.id.edt_danhgia_noidung);
         btnSubmit = findViewById(R.id.btnSubmit);
+        txt_danhgia_namesanpham = findViewById(R.id.txt_danhgia_namesanpham);
+        txt_danhgia_diachi = findViewById(R.id.txt_danhgia_diachi);
+        txt_danhgia_price = findViewById(R.id.txt_danhgia_price);
+        txt_danhgia_nameuser = findViewById(R.id.txt_danhgia_nameuser);
+        img_danhgia_avata = findViewById(R.id.img_danhgia_avata);
 
         stars = new ImageView[]{
                 findViewById(R.id.star1),
@@ -47,6 +62,19 @@ public class ProductReview_Activity extends AppCompatActivity {
                 findViewById(R.id.star4),
                 findViewById(R.id.star5)
         };
+        Intent intent = getIntent();
+        productName = intent.getStringExtra("productName");
+        userName = intent.getStringExtra("userName");
+        address = intent.getStringExtra("address");
+        price = intent.getStringExtra("price");
+        imageresid = intent.getIntExtra("imageresid", 0);
+        orderId = intent.getIntExtra("orderId", 0);
+
+        txt_danhgia_namesanpham.setText(productName);
+        txt_danhgia_nameuser.setText(userName);
+        txt_danhgia_price.setText(price);
+        txt_danhgia_diachi.setText(address);
+        img_danhgia_avata.setImageResource(imageresid);
 
         // Lấy màu từ resources
         colorYellow = ContextCompat.getColor(this, R.color.colorPrimary);
@@ -54,10 +82,11 @@ public class ProductReview_Activity extends AppCompatActivity {
 
         btnBack.setOnClickListener(v -> finish());
 
+
         // Gán sự kiện click cho từng sao
-        for (int i = 0; i < stars.length; i++) {
-            final int index = i;
-            stars[i].setOnClickListener(v -> setStarRating(index + 1));
+        for (int i1 = 0; i1 < stars.length; i1++) {
+            final int index = i1;
+            stars[i1].setOnClickListener(v -> setStarRating(index + 1));
         }
 
         btnSubmit.setOnClickListener(v -> submitReview());
@@ -84,12 +113,14 @@ public class ProductReview_Activity extends AppCompatActivity {
             return;
         }
 
-        String avata = "";
-        String address = "";         // Nếu chưa có, để rỗng tạm
-        String productName = "Áo trẻ em";
-        String userName = "Nguyễn Văn A";
-        int price = 0;               // Nếu không có giá, đặt tạm 0 hoặc lấy giá thật
 
+        int priceValue = 0;
+        try {
+            priceValue = Integer.parseInt(price.replaceAll("[^0-9]", ""));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }           // Nếu không có giá, đặt tạm 0 hoặc lấy giá thật
+        String avata = String.valueOf(imageresid);
         DanhGia_Model danhGia = new DanhGia_Model(
                 0,          // id mới nên để 0
                 address,
@@ -98,20 +129,26 @@ public class ProductReview_Activity extends AppCompatActivity {
                 userName,
                 selectedRating,
                 content,
-                price
+                priceValue
         );
 
         DanhGia_Dao dao = new DanhGia_Dao(this);
+
         long result = dao.insertDanhGia(danhGia);
         if (result > 0) {
             Toast.makeText(this, "Gửi đánh giá thành công", Toast.LENGTH_SHORT).show();
+            setResult(RESULT_OK);
             finish();
         } else {
             Toast.makeText(this, "Gửi thất bại", Toast.LENGTH_SHORT).show();
         }
     }
 
+
+    @SuppressWarnings("unused")
     private String getCurrentTime() {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(new Date());
     }
 }
+
+

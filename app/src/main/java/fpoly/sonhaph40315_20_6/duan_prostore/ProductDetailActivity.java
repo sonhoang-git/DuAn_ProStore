@@ -61,6 +61,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         btnOrderNow.setOnClickListener(v -> {
             Intent intent = new Intent(ProductDetailActivity.this, OrderDetailActivity.class);
             intent.putExtra("product", product);
+
             startActivity(intent);
         });
 
