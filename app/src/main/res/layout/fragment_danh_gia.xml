@@ -60,46 +60,4 @@
         android:clipToPadding="false"
         android:scrollbars="vertical" />
 
-    <!-- Phân trang -->
-    <LinearLayout
-        android:id="@+id/layoutPagination"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal"
-        android:paddingTop="16dp"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/btnTrang1"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="1"
-            android:textColor="#000000"
-            android:backgroundTint="#F2994A" />
-
-        <Space
-            android:layout_width="8dp"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnTrang2"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="2"
-            android:textColor="#000000"
-            android:backgroundTint="#F2994A" />
-
-        <Space
-            android:layout_width="8dp"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnTrang3"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="3"
-            android:textColor="#000000"
-            android:backgroundTint="#F2994A" />
-    </LinearLayout>
 </LinearLayout>

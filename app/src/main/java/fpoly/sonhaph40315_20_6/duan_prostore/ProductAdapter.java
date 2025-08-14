@@ -66,9 +66,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.itemView.setOnClickListener(openDetail);
 
         if (isAdmin) {
-            // Admin: show edit/delete, hide add to cart
+
             holder.btnEdit.setVisibility(View.VISIBLE);
             holder.btnDelete.setVisibility(View.VISIBLE);
+            holder.btnAdd.setVisibility(View.GONE);
 
 
             holder.btnEdit.setOnClickListener(v -> {
@@ -84,9 +85,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             });
 
         } else {
-            // Customer: show add to cart, hide edit/delete
+
             holder.btnEdit.setVisibility(View.GONE);
             holder.btnDelete.setVisibility(View.GONE);
+            holder.btnAdd.setVisibility(View.VISIBLE);
 
         }
         holder.btnAdd.setOnClickListener(v -> {
