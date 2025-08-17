@@ -38,8 +38,7 @@ public class LienHeAdapter extends RecyclerView.Adapter<LienHeAdapter.ContactVie
         holder.tvEmail.setText("Email: " + contact.getEmail());
         holder.tvAddress.setText("Địa chỉ: " + contact.getAddress());
         holder.tvMessage.setText("Nội dung: " + contact.getNoidung());
-        // Nếu bạn có trường thời gian (date), thêm tương tự, nếu không thì bỏ dòng này
-        // holder.tvDate.setText("Thời gian: " + contact.getDate());
+
     }
 
     @Override
